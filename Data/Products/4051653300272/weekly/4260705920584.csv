@@ -1,0 +1,9 @@
+Date,Quantity,Price,Quantity_perWeek,Price_Total_perOrder,MonthoftheYear,WeekoftheMonth,DayoftheYear,DayoftheMonth,DayoftheWeek,isWeekend
+2023-01-17,1,8.99,-1,8.99,1,2,17,17,1,False
+2023-02-02,1,8.99,-1,8.99,2,0,33,2,3,False
+2022-11-07,1,8.99,-1,8.99,11,0,311,7,0,False
+2022-11-11,1,8.99,-2,8.99,11,1,315,11,4,False
+2022-11-14,1,8.99,-3,8.99,11,1,318,14,0,False
+2022-11-15,1,8.99,-2,8.99,11,2,319,15,1,False
+2022-11-18,2,8.99,-4,17.98,11,2,322,18,4,False
+2022-11-22,1,8.99,-1,8.99,11,3,326,22,1,False

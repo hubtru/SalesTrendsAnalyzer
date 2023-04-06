@@ -1,0 +1,2 @@
+Date,Quantity,Price,Quantity_perWeek,Price_Total_perOrder,MonthoftheYear,WeekoftheMonth,DayoftheYear,DayoftheMonth,DayoftheWeek,isWeekend
+2022-12-31,1,7.99,-1,7.99,12,4,365,31,5,True

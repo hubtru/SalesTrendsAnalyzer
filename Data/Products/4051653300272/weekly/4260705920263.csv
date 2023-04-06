@@ -1,0 +1,9 @@
+Date,Quantity,Price,Quantity_perWeek,Price_Total_perOrder,MonthoftheYear,WeekoftheMonth,DayoftheYear,DayoftheMonth,DayoftheWeek,isWeekend
+2022-05-20,1,49.99,-1,49.99,5,2,140,20,4,False
+2022-08-20,1,52.99,-2,52.99,8,2,232,20,5,True
+2022-08-29,1,52.99,-2,52.99,8,4,241,29,0,False
+2022-09-03,1,52.99,-3,52.99,9,0,246,3,5,True
+2022-10-15,1,52.99,-1,52.99,10,2,288,15,5,True
+2022-10-22,1,52.99,-1,52.99,10,3,295,22,5,True
+2022-10-28,1,52.99,-1,52.99,10,3,301,28,4,False
+2022-12-31,1,52.99,-1,52.99,12,4,365,31,5,True
