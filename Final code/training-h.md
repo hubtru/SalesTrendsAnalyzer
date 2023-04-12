@@ -1,4 +1,4 @@
-# training-H-
+# training-h-
 # Table of Contents
 - Introduction
 - Installation
