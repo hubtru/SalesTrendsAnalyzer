@@ -9,7 +9,7 @@
 - Results
 - Contributing
 ## Introduction
-The given code is a machine learning model for time series forecasting using various techniques such as Fast Fourier Transform, normalization, data windowing, and splitting. It also includes the creation of TensorFlow datasets and the implementation of different models such as single-step models, multi-output models, multi-step models, and autoregressive models. The performance of each model is evaluated and compared to the baseline model. The code is written in Python and uses TensorFlow and other libraries for data processing and modeling.
+The given code is a machine learning model for time series forecasting using various techniques such as Fast Fourier Transform, normalization, data windowing, and splitting. It also includes the creation of TensorFlow datasets and the implementation of different models such as single-step models, multi-output models, multi-step models, and autoregressive models. The performance of each model is evaluated and compared to the baseline model. The code is written in Python and uses TensorFlow and other libraries for data processing and modeling. By using vertical training, the model can provide more targeted and accurate forecasts for a single product, which can be useful for businesses that want to understand the performance of a specific product and make data-driven decisions.
 
 - Loading the data: This involves importing the necessary libraries and loading the dataset that will be used for analysis and prediction.
 
@@ -44,6 +44,8 @@ The given code is a machine learning model for time series forecasting using var
 - Performance: This involves evaluating the performance of the different models using various metrics such as mean squared error, mean absolute error, and root mean squared error.
 
 - Autoregressive Models: This includes models designed to predict future values based on the past values of the same variable.
+- Vertical Training: Vertical training, also known as single product analysis, involves analyzing data for a specific product, or a subset of products, by focusing on their unique features and values. This approach is useful when you want to understand the performance of a specific product, identify trends or patterns, and make targeted improvements.
+For example, let's say you want to analyze the sales performance of a single product in a given period. By using vertical training, you would focus on the specific features of that product, such as its price, promotions, and advertising strategies, and how they affect its sales performance.
 
 ## Installation
 To use this project, you will need to install the following packages:
@@ -90,5 +92,3 @@ The merged_cleaned_FE_imputed(v).csv file has the following columns:
 
 ## Contributing
 Contributions to this project are welcome. Please open an issue or pull request if you have any suggestions or would like to contribute code.
-
-
