@@ -12,7 +12,7 @@ This code reads in a CSV file ('Data/merged_cleaned.csv') and performs data impu
 
 The feature engineering includes creating new features based on the date, such as year, month, day of the month, week of the month, day of the week, week of the year, day of the year, whether it's a weekend, whether it's the start or end of a week/month, the season, and whether it's a holiday in Germany.
 
-Finally, the modified dataframe is saved to a new CSV file ('Data/merged_cleaned_FE_imputed(v).csv') for further analysis.
+Finally, the modified dataframe is saved to a new CSV file ('merged_cleaned_FE_imputed(v).csv') for further analysis.
 ### data_separator
 This code is a Python script that performs some data manipulation tasks using the Pandas library.
 
