@@ -19,7 +19,11 @@ Sales prediction and visualization of demand patterns
 ## Introduction
 This project aims to analyze sales data for a sushi restaurant chain. The data includes daily sales for a variety of sushi dishes, as well as information on the type and EAN (European Article Number) code for each dish. The analysis focuses on  daily/weekly sales for each dish.
 
-## Installation
+
+
+## Installation and Requirements
+Requirements: List any dependencies or requirements for running the Python scripts, such as specific Python versions, libraries, or external tools.
+
 To use this project, you will need to install the following packages:
 - pandas
 - matplotlib
@@ -28,12 +32,45 @@ You can install these packages using pip:
 ```sh
 pip install pandas matplotlib
 ```
-## Usage
+## Scripts
 
-To use this project, you will need to download the repository and run the data_visualization_v.ipynb file. This file contains the code for analyzing the sales data and generating visualizations.
+Use clear headings or bullet points to describe each script in the repository, and include the following information for each script:
+
+Name: The name of the script.
+
+Description: A brief description of the script's purpose and functionality.
+
+Inputs: A description of the input parameters or data required by the script, including their format and any default values.
+
+Outputs: A description of the output produced by the script, including its format and destination (e.g., file, console, etc.).
+
+Usage: Provide an example of how to run the script, including any necessary command-line arguments or options.
 
 
-## Data
+### Script:  `feature_engineering.py`
+**Description**: This script processes raw cleaned data and generates the features. 
+
+**Inputs**: 
+- `Data/merged_cleaned.csv`: Path to the merged and cleaned data file (CSV format). 
+
+**Outputs**: 
+- Calculated features: A CSV file conataining the calculated features, saved in the specified output directory `Data/merged_cleaned_FE_imputed(v).csv`. 
+
+**Usage**: 
+```bash
+python  feature_engineering.py
+```
+
+### To repeat for: `data_loader.py`
+### `data_separator.py`
+### `test.ipynb`
+### `training(h).ipynb`
+### `training(v).ipynb`
+### `visualisaiton&training(h).ipynb`
+### `Scripts in /Final code`
+
+  
+
 ### Overview
 
 The data used in this project is sales data for a sushi restaurant over a period of time. The data contains information about the products sold, the date of sale, and the quantity sold.
