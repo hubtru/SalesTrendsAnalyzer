@@ -1,4 +1,4 @@
-### Script:  `test.py`
+### Script:  `test.ipynb`
 
 **Description**: This script loads sales and weather data from CSV files, pivots the sales data to create a new DataFrame with daily sales quantity for each product, calculates the total daily sales quantity, and performs feature engineering to create additional features for machine learning modeling.
 
