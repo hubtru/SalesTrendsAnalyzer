@@ -1,4 +1,4 @@
-### Script:   `visualisaiton&training(h).py` 
+### Script:   `visualisaiton&training(h).ipynb` 
 
 **Description**: This script performs analysis on sales data for different products in different stores over time.
 The script first loads in the cleaned and processed sales data from the CSV file. It then creates a pivot table to organize the data by date and product ID, which is used for further analysis.
