@@ -11,8 +11,8 @@
 
 **Outputs**: 
 
--Concatenated CSV file: A CSV file containing all the converted raw data files concatenated into a single Pandas DataFrame and saved in the specified output directory (destination_path).
--Cleaned CSV file: A cleaned CSV file (with name 'merged_cleaned.csv') containing the cleaned data, saved in the Data directory.
+- Concatenated CSV file: A CSV file containing all the converted raw data files concatenated into a single Pandas DataFrame and saved in the specified output directory (destination_path).
+- Cleaned CSV file: A cleaned CSV file (with name 'merged_cleaned.csv') containing the cleaned data, saved in the Data directory.
 
 **Usage**: 
 
