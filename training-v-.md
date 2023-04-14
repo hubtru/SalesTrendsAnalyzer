@@ -49,10 +49,10 @@ For example, let's say you want to analyze the sales performance of a single pro
 
 **Inputs**: 
 
-- `merged_cleaned_FE_imputed(v).csv`? 
+- `merged_cleaned_FE_imputed(v).csv` 
 
 **Outputs**: 
-- The trained models mentioned in Introduction ...? 
+- The trained models mentioned in Introduction
 
 
 ## Installation
