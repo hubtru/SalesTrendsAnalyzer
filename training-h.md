@@ -49,10 +49,10 @@ The performance of each model is evaluated and compared to a baseline model to d
 
 **Inputs**: 
 
-- merged_cleaned_FE_imputed(v).csv? 
+- merged_cleaned_FE_imputed(v).csv 
 
 **Outputs**: 
-- The trained models mentioned in Introduction ...? 
+- The trained models mentioned in Introduction 
 
 ## Installation
 To use this project, you will need to install the following packages:
