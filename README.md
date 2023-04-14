@@ -32,12 +32,20 @@ This project aims to analyze sales data for a sushi restaurant chain. The data i
 Requirements: List any dependencies or requirements for running the Python scripts, such as specific Python versions, libraries, or external tools.
 
 To use this project, you will need to install the following packages:
-- pandas
-- matplotlib
+- os
+- datetime
+- IPython
+- IPython.display
+- matplotlib 
+- matplotlib.pyplot 
+- numpy 
+- pandas 
+- seaborn 
+- tensorflow 
 You can install these packages using pip:
 
 ```sh
-pip install pandas matplotlib
+pip install -r requirements.txt
 ```
 ## Scripts
 

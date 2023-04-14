@@ -7,26 +7,6 @@
 This repository contains three Python scripts that provide useful functionality for data analysis and processing. These scripts are designed to perform specific tasks related to data processing and cleaning, and are intended to be used as building blocks for more complex data analysis workflows.
 
 
-### Script:  `feature_engineering.py`
-**Description**: This script processes raw cleaned data and generates the features. 
-
-**Inputs**: 
-- `Data/merged_cleaned.csv`: Path to the merged and cleaned data file (CSV format). 
-
-**Outputs**: 
-- Calculated features: A CSV file conataining the calculated features, saved in the specified output directory `Data/merged_cleaned_FE_imputed(v).csv`. 
-
-**Usage**: 
-```bash
-python  feature_engineering.py
-```
-
-This code reads in a CSV file ('Data/merged_cleaned.csv') and performs data imputation and feature engineering on it. The imputation is done by filling missing values in the 'Quantity' and 'Price' columns with 0 and the mean of the respective group of 'StoreID' and 'ProductID', respectively. If there are still missing values in the 'Price' column, they are filled with the general average price across all stores and products.
-
-The feature engineering includes creating new features based on the date, such as year, month, day of the month, week of the month, day of the week, week of the year, day of the year, whether it's a weekend, whether it's the start or end of a week/month, the season, and whether it's a holiday in Germany.
-
-Finally, the modified dataframe is saved to a new CSV file ('merged_cleaned_FE_imputed(v).csv') for further analysis.
-
 ### Script:   `data_separator.py`
 
 **Description**: This Python script performs data manipulation tasks using the Pandas library. It groups data by StoreID and ProductID, calculates the sum of Quantity for each group, and saves the resulting data into separate CSV files for each StoreID and ProductID.
@@ -109,3 +89,24 @@ This function cleans the data in the DataFrame by doing the following:
 - Saves the cleaned DataFrame as a CSV file in the Data directory with the name merged_cleaned.csv
 
 The __main__ block calls both functions with appropriate arguments. It reads raw data files from the Data/Raw directory, converts them to CSV files, concatenates them into a single Pandas DataFrame, cleans the data, and saves the cleaned DataFrame as a CSV file in the Data directory with the name merged_cleaned.csv.
+
+
+### Script:  `feature_engineering.py`
+**Description**: This script processes raw cleaned data and generates the features. 
+
+**Inputs**: 
+- `Data/merged_cleaned.csv`: Path to the merged and cleaned data file (CSV format). 
+
+**Outputs**: 
+- Calculated features: A CSV file conataining the calculated features, saved in the specified output directory `Data/merged_cleaned_FE_imputed(v).csv`. 
+
+**Usage**: 
+```bash
+python  feature_engineering.py
+```
+
+This code reads in a CSV file ('Data/merged_cleaned.csv') and performs data imputation and feature engineering on it. The imputation is done by filling missing values in the 'Quantity' and 'Price' columns with 0 and the mean of the respective group of 'StoreID' and 'ProductID', respectively. If there are still missing values in the 'Price' column, they are filled with the general average price across all stores and products.
+
+The feature engineering includes creating new features based on the date, such as year, month, day of the month, week of the month, day of the week, week of the year, day of the year, whether it's a weekend, whether it's the start or end of a week/month, the season, and whether it's a holiday in Germany.
+
+Finally, the modified dataframe is saved to a new CSV file ('merged_cleaned_FE_imputed(v).csv') for further analysis.
