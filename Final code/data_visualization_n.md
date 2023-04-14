@@ -10,7 +10,9 @@
 - Contributing
 ## Introduction
 This project aims to analyze sales data for a sushi restaurant chain. The data includes daily sales for a variety of sushi dishes, as well as information on the type and EAN (European Article Number) code for each dish. The analysis focuses on  daily/weekly sales for each dish.
-
+ **Inputs** 
+ **Outputs**
+ 
 ## Installation
 To use this project, you will need to install the following packages:
 - pandas
