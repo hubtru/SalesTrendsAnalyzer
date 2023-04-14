@@ -43,14 +43,14 @@ Overall, this code appears to be performing some data processing and transformat
 
 **Inputs**:
 
-- folder_path: A string representing the path of the folder containing the raw data files (in a non-CSV format).
+- folder_path: A string representing the path of the folder containing the raw data files (in a non-CSV format). Default name is: `.....`
 - destination_path: A string representing the path where the converted CSV files will be saved.
 - column_names: A list of strings representing the column names of the resulting CSV files.
 
 
 **Outputs**: 
 
-- Concatenated CSV file: A CSV file containing all the converted raw data files concatenated into a single Pandas DataFrame and saved in the specified output directory (destination_path).
+- Concatenated CSV file: A CSV file containing all the converted raw data files concatenated into a single Pandas DataFrame and saved in the specified output directory (destination_path). Default name is: `......`.  
 - Cleaned CSV file: A cleaned CSV file (with name 'merged_cleaned.csv') containing the cleaned data, saved in the Data directory.
 
 **Usage**: 
