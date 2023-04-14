@@ -34,7 +34,7 @@ pip install pandas matplotlib
 
 To use this project, you will need to download the repository and run the data_visualization_v.ipynb file. This file contains the code for analyzing the sales data and generating visualizations.
 
-
+To visualize data with dropdown menus, you will need to run the "data_visualization_dropdown_menu.ipynb" file.
 ## Data
 ### Overview
 
