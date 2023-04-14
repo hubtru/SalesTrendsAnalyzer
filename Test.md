@@ -5,7 +5,11 @@
 **Inputs**: 
 
 - sales_path: A string representing the path of the CSV file containing the sales data.
+
+Example: `/Data/merged_cleaned_FE_imputed(v).csv'`
 - weather_path: A string representing the path of the CSV file containing the weather data.
+
+Example: `/Data/weather.csv'`
 
 **Outputs**: 
 

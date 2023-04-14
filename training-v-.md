@@ -47,6 +47,14 @@ The given code is a machine learning model for time series forecasting using var
 - Vertical Training: Vertical training, also known as single product analysis, involves analyzing data for a specific product, or a subset of products, by focusing on their unique features and values. This approach is useful when you want to understand the performance of a specific product, identify trends or patterns, and make targeted improvements.
 For example, let's say you want to analyze the sales performance of a single product in a given period. By using vertical training, you would focus on the specific features of that product, such as its price, promotions, and advertising strategies, and how they affect its sales performance.
 
+**Inputs**: 
+
+- merged_cleaned_FE_imputed(v).csv? 
+
+**Outputs**: 
+- The trained models mentioned in Introduction ...? 
+
+
 ## Installation
 To use this project, you will need to install the following packages:
 - os
