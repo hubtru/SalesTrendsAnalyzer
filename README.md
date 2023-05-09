@@ -40,7 +40,8 @@ To use this project, you will need to install the following packages:
 -   pandas
 -   seaborn
 -   tensorflow
-    You can install these packages using pip:
+
+You can install these packages using pip:
 
 ```sh
 pip install -r requirements.txt
