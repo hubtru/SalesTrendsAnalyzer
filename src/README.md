@@ -142,6 +142,7 @@ Finally, the modified dataframe is saved to a new CSV file ('merged_cleaned_FE_i
 **Inputs**:
 
 -   `Data/merged_cleaned.csv`: Path to the merged and cleaned data file (CSV format).
+-   `Data/weather.csv`: Path to the file with the weather forcast.
 
 **Outputs**:
 
