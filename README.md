@@ -10,6 +10,7 @@ Sales prediction and visualization of demand patterns
     -   [Installation and Requirements](#installation-and-requirements)
     -   [Scripts](#scripts)
         -   [Script: `feature_engineering.py`](#script--feature_engineeringpy)
+        -   [Script: `feature_engineering_w.py`](#scripts--feature_engineering_w.py)
         -   [To repeat for: `data_loader.py`](#to-repeat-for-data_loaderpy)
         -   [`data_separator.py`](#data_separatorpy)
         -   [`test.ipynb`](#testipynb)
@@ -77,6 +78,24 @@ Usage: Provide an example of how to run the script, including any necessary comm
 
 ```bash
 python  feature_engineering.py
+```
+
+### `feature_engineering_w.py`
+
+**Description**: This script processes raw cleaned data and generates the features including weather. Explanations can be found in "src/weather.ipynb"
+
+**Inputs**:
+
+-   `Data/merged_cleaned.csv`: Path to the merged and cleaned data file (CSV format).
+
+**Outputs**:
+
+-   Calculated features: A CSV file conataining the calculated features including weather, saved in the specified output directory `Data/merged_cleaned_FE_imputed(v)_w.csv`.
+
+**Usage**:
+
+```bash
+python  feature_engineering_w.pys
 ```
 
 ### To repeat for: `data_loader.py`
