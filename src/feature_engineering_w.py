@@ -77,11 +77,22 @@ def weather_features(df):
             1: "clouds dissolving",
             2: "unchanged sky state",
             3: "clouds developing",
+            51: "precipitation",
+            53: "precipitation",
+            55: "precipitation",
+            61: "precipitation",
+            63: "precipitation",
+            71: "precipitation",
+            73: "precipitation",
         }
 
         weather_new["weather_condition"] = weather["weathercode (wmo code)"].apply(
-            lambda x: wcode_map[x] if x in [0, 1, 2, 3] else "precipitation"
+            lambda x: wcode_map[x]
         )
+        weather_new = pd.get_dummies(
+            weather_new, columns=["weather_condition"], prefix=["weather"]
+        )
+
         return weather_new
 
     weather_features = recalculate_features(weather)
@@ -103,20 +114,24 @@ def date_features(df):
 
     df["WeekoftheMonth"] = (
         df["DayoftheMonth"]
-        .apply(lambda x: 4 if (int(x) - 1) // 7 + 1 == 5 else (int(x) - 1) // 7 + 1)
+        .apply(lambda x: ((int(x) - 1) // 7) + 1)
+        .apply(lambda x: x if x <= 4 else 4)
         .astype(int)
     )
-    df["DayoftheWeek"] = (
-        df["DayoftheMonth"]
-        .apply(
-            lambda x: 7
-            if int(x) % 7 == 0
-            else 7 + (int(x) - 28)
-            if int(x) > 28
-            else int(x) % 7
-        )
-        .astype(int)
-    )
+
+    # df["DayoftheWeek"] = (
+    #     df["DayoftheMonth"]
+    #     .apply(
+    #         lambda x: 7
+    #         if int(x) % 7 == 0
+    #         else 7 + (int(x) - 28)
+    #         if int(x) > 28
+    #         else int(x) % 7
+    #     )
+    #     .astype(int)
+    # )
+
+    df["DayoftheWeek"] = df["Date"].dt.strftime("%w").astype(int)
 
     df["WeekoftheYear"] = df["Date"].dt.strftime("%U").astype(int)
     df["DayoftheYear"] = df["Date"].dt.strftime("%j").astype(int)
