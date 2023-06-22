@@ -4,24 +4,27 @@ Sales prediction and visualization of demand patterns
 
 ## Table of Contents
 
--   [SalesTrendsAnalyzer](#salestrendsanalyzer)
-    -   [Table of Contents](#table-of-contents)
-    -   [Introduction](#introduction)
-    -   [Installation and Requirements](#installation-and-requirements)
-    -   [Scripts](#scripts)
-        -   [Script: `feature_engineering.py`](#script--feature_engineeringpy)
-        -   [To repeat for: `data_loader.py`](#to-repeat-for-data_loaderpy)
-        -   [`data_separator.py`](#data_separatorpy)
-        -   [`test.ipynb`](#testipynb)
-        -   [`training(h).ipynb`](#traininghipynb)
-        -   [`training(v).ipynb`](#trainingvipynb)
-        -   [`visualisaiton&training(h).ipynb`](#visualisaitontraininghipynb)
-        -   [`Scripts in /Final code`](#scripts-in-final-code)
-        -   [Script: `visualisaiton&training(h).ipynb`](#script---visualisaitontraininghipynb)
-        -   [Overview](#overview)
-        -   [Data structure](#data-structure)
-    -   [Results](#results)
-    -   [Contributing](#contributing)
+- [SalesTrendsAnalyzer](#salestrendsanalyzer)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Installation and Requirements](#installation-and-requirements)
+  - [Scripts](#scripts)
+    - [Scripts: `feature_engineering.py`](#scripts-feature_engineeringpy)
+    - [`feature_engineering_w.py`](#feature_engineering_wpy)
+    - [`data_loader.py`](#data_loaderpy)
+    - [`data_separator.py`](#data_separatorpy)
+    - [`test.ipynb`](#testipynb)
+    - [`training(h).ipynb`](#traininghipynb)
+    - [`training(h)_w.ipynb`](#trainingh_wipynb)
+    - [`training(h)_w_optimised.ipynb`](#trainingh_w_optimisedipynb)
+    - [`training(v).ipynb`](#trainingvipynb)
+    - [`Scripts in /Final code`](#scripts-in-final-code)
+    - [Overview](#overview)
+    - [Data structure](#data-structure)
+  - [Results](#results)
+  - [Contributing](#contributing)
+  - [Detailed description](#detailed-description)
+    - [`training(h)_w_optimised.ipynb`](#trainingh_w_optimisedipynb-1)
 
 ## Introduction
 
@@ -61,25 +64,11 @@ Outputs: A description of the output produced by the script, including its forma
 
 Usage: Provide an example of how to run the script, including any necessary command-line arguments or options.
 
-### Script: `feature_engineering.py`
+### Scripts: `feature_engineering.py`
 
-**Description**: This script processes raw cleaned data and generates the features.
+### `feature_engineering_w.py`
 
-**Inputs**:
-
--   `Data/merged_cleaned.csv`: Path to the merged and cleaned data file (CSV format).
-
-**Outputs**:
-
--   Calculated features: A CSV file conataining the calculated features, saved in the specified output directory `Data/merged_cleaned_FE_imputed(v).csv`.
-
-**Usage**:
-
-```bash
-python  feature_engineering.py
-```
-
-### To repeat for: `data_loader.py`
+###  `data_loader.py`
 
 ### `data_separator.py`
 
@@ -87,9 +76,20 @@ python  feature_engineering.py
 
 ### `training(h).ipynb`
 
+### `training(h)_w.ipynb`
+
+### `training(h)_w_optimised.ipynb`
+Detailed description: see bellow.
+
+**Inputs**: 
+
+- "Data/merged_cleaned_FE_imputed(v)_w.csv" 
+
+**Outputs**: 
+- The trained models mentioned in Introduction with comparison
+
 ### `training(v).ipynb`
 
-### `visualisaiton&training(h).ipynb`
 
 ### `Scripts in /Final code`
 
@@ -161,3 +161,14 @@ The results of the analysis are visualizations that show the sales trends for di
 ## Contributing
 
 Contributions to this project are welcome. Please open an issue or pull request if you have any suggestions or would like to contribute code. It would be helpful to add the possibility to choose the products from the dropdown menu to improve the user experience.
+
+
+## Detailed description 
+
+### `training(h)_w_optimised.ipynb`
+- Builds on the top of the training(h).ipynb and training(h)_w.ipynb including the changes: 
+  - not use early stopping as this is not working well with shuffled batches
+  - specify shapes and some „Flatten“-Layers in the model to better control what is happening.
+  - removed some of the features that were like an „index“ of the data, to prevent overfitting
+  - reduce the window-width as overfitting will happen always when we have more input features then training samples
+  - Reduce the „label“ width, as if it is bigger then „shift“, values can just be passed through from the input
