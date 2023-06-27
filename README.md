@@ -15,13 +15,16 @@ Sales prediction and visualization of demand patterns
     - [`data_separator.py`](#data_separatorpy)
     - [`test.ipynb`](#testipynb)
     - [`training(h).ipynb`](#traininghipynb)
+    - [`training(h)_w.ipynb`](#trainingh_wipynb)
+    - [`training(h)_w_optimised.ipynb`](#trainingh_w_optimisedipynb)
     - [`training(v).ipynb`](#trainingvipynb)
-    - [`visualisaiton&training(h).ipynb`](#visualisaitontraininghipynb)
     - [`Scripts in /Final code`](#scripts-in-final-code)
     - [Overview](#overview)
     - [Data structure](#data-structure)
   - [Results](#results)
   - [Contributing](#contributing)
+  - [Detailed description](#detailed-description)
+    - [`training(h)_w_optimised.ipynb`](#trainingh_w_optimisedipynb-1)
 
 ## Introduction
 
@@ -73,9 +76,20 @@ Usage: Provide an example of how to run the script, including any necessary comm
 
 ### `training(h).ipynb`
 
+### `training(h)_w.ipynb`
+
+### `training(h)_w_optimised.ipynb`
+Detailed description: see bellow.
+
+**Inputs**: 
+
+- "Data/merged_cleaned_FE_imputed(v)_w.csv" 
+
+**Outputs**: 
+- The trained models mentioned in Introduction with comparison
+
 ### `training(v).ipynb`
 
-### `visualisaiton&training(h).ipynb`
 
 ### `Scripts in /Final code`
 
@@ -147,3 +161,14 @@ The results of the analysis are visualizations that show the sales trends for di
 ## Contributing
 
 Contributions to this project are welcome. Please open an issue or pull request if you have any suggestions or would like to contribute code. It would be helpful to add the possibility to choose the products from the dropdown menu to improve the user experience.
+
+
+## Detailed description 
+
+### `training(h)_w_optimised.ipynb`
+- Builds on the top of the training(h).ipynb and training(h)_w.ipynb including the changes: 
+  - not use early stopping as this is not working well with shuffled batches
+  - specify shapes and some „Flatten“-Layers in the model to better control what is happening.
+  - removed some of the features that were like an „index“ of the data, to prevent overfitting
+  - reduce the window-width as overfitting will happen always when we have more input features then training samples
+  - Reduce the „label“ width, as if it is bigger then „shift“, values can just be passed through from the input
