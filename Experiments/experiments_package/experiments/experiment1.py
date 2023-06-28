@@ -13,7 +13,7 @@ class Experiment1(Experiment):
 
         history = model.fit(
             self.data.train,
-            epochs=50,
+            epochs=100,
             validation_data=self.data.val,
         )
 
@@ -22,7 +22,7 @@ class Experiment1(Experiment):
     def get_train_settings(self):
         return {
             "Batch Size": 32,
-            "Epochs": 50,
+            "Epochs": 100,
             "Learning Rate": 0.001,
             "Optimizer": "Adam",
             "Shuffled Batches": "True",
