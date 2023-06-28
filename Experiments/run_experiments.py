@@ -1,6 +1,6 @@
 import experiments_package.models.single_step as single_step
-from experiments_package.experiments.experiment1 import Experiment1
-from experiments_package.general.config import ProductIds
+from experiments_package.experiments import Experiment1
+from experiments_package.general import ProductIds
 
 if __name__ == "__main__":
     experiment = Experiment1("Experiment1", "./outputs")
