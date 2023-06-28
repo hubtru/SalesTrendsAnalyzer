@@ -1,9 +1,13 @@
 import typer
 from typing_extensions import Annotated
-from experiments_package.experiments import Experiment1
+from experiments_package.experiments import Experiment1, Experiment2
+
 
 app = typer.Typer()
-experiments = [Experiment1("Experiment1", "./outputs")]
+experiments = [
+    Experiment1("SingleOutput", "./outputs"),
+    Experiment2("MultiOutput", "./outputs"),
+]
 
 
 @app.command()

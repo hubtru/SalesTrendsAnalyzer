@@ -106,7 +106,7 @@ def get_window_dataset(dataset_options: DatasetOptions) -> WindowGenerator:
         input_width=dataset_options.window_width,
         label_width=dataset_options.label_width,
         shift=dataset_options.shift,
-        label_columns=[ProductIds.BENS_LUNCHTIME.value],
+        label_columns=dataset_options.label_columns,
         train_df=train_df,
         val_df=val_df,
         test_df=test_df,

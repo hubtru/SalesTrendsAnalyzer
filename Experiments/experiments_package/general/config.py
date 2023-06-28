@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import List
+from typing import List, Optional
 
 USED_STORE_ID = 4051653300272
 
@@ -16,3 +16,4 @@ class DatasetOptions:
     shift: int
     data_origin: str
     drop_columns: List[str]
+    label_columns: Optional[List[str]] = None

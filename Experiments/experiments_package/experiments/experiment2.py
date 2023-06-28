@@ -1,9 +1,9 @@
 import tensorflow as tf
 from experiments_package.general import DatasetOptions, Experiment, ProductIds
-import experiments_package.models.single_step as single_step
+from experiments_package.models.single_step import Baseline, Dense, RNN, ResidualRNN
 
 
-class Experiment1(Experiment):
+class Experiment2(Experiment):
     def compile_and_fit(self, model):
         model.compile(
             loss=tf.keras.losses.MeanSquaredError(),
@@ -30,7 +30,7 @@ class Experiment1(Experiment):
             "Window Width": 3,
             "Label Width": 1,
             "Shift": 1,
-            "Predicted Labels": ProductIds.BENS_LUNCHTIME.value,
+            "Predicted Labels": "All",
         }
 
     def get_dataset_options(self):
@@ -51,24 +51,17 @@ class Experiment1(Experiment):
             window_width=3,
             label_width=1,
             shift=1,
-            label_columns=[ProductIds.BENS_LUNCHTIME.value],
+            label_columns=None,
         )
 
     def get_models(self):
         return {
-            "Persistence": single_step.Baseline(
-                label_index=self.data.column_indices[ProductIds.BENS_LUNCHTIME.value],
-                forecasting_width=1,
+            "Baseline": Baseline(label_index=None, forecasting_width=1),
+            "Dense": Dense(
+                window_width=3, label_width=1, feature_size=87, num_labels=87
             ),
-            "Linear": single_step.Linear(
-                window_width=3, label_width=1, feature_size=87
+            "RNN": RNN(window_width=3, label_width=1, feature_size=87, num_labels=87),
+            "ResidualRNN": ResidualRNN(
+                window_width=3, label_width=1, feature_size=87, num_labels=87
             ),
-            "Dense": single_step.Dense(window_width=3, label_width=1, feature_size=87),
-            "Multi Step Dense": single_step.MultiStepDense(
-                window_width=3, label_width=1, feature_size=87
-            ),
-            "Convolutional": single_step.Convolutional(
-                window_width=3, label_width=1, feature_size=87
-            ),
-            "RNN": single_step.RNN(window_width=3, label_width=1, feature_size=87),
         }

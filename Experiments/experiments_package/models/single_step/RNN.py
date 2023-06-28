@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 
-def RNN(window_width, feature_size, label_width):
+def RNN(window_width, feature_size, label_width, num_labels=1):
     return tf.keras.models.Sequential(
         [
             # Shape [batch, time, features] => [batch, time, lstm_units]
@@ -10,7 +10,7 @@ def RNN(window_width, feature_size, label_width):
             ),
             tf.keras.layers.Flatten(input_shape=(window_width, 32)),
             # Shape => [batch, time, features]
-            tf.keras.layers.Dense(units=label_width),
-            tf.keras.layers.Reshape(target_shape=(label_width, 1)),
+            tf.keras.layers.Dense(units=label_width * num_labels),
+            tf.keras.layers.Reshape(target_shape=(label_width, num_labels)),
         ]
     )
