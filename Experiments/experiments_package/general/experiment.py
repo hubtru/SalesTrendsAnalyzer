@@ -5,7 +5,12 @@ from tensorflow import random
 
 from .config import DatasetOptions
 from .data import get_window_dataset
-from .performance import Performances
+from .performance import (
+    Performances,
+    get_model_size_byte,
+    get_non_trainable_params,
+    get_trainable_params,
+)
 
 
 class Experiment(ABC):
@@ -89,9 +94,6 @@ class Experiment(ABC):
             performance_stats[[("Training Settings", setting)]] = description
 
         ## The Individual Model Settings
-        performance_stats[[("Timing", "Latency (ms/observation)")]] = " "
-        performance_stats[[("Model", "Summary")]] = " "
-        performance_stats[[("Model", "Name")]] = " "
         for name, model in models.items():
             performance_stats.at[
                 name, ("Timing", "Latency (ms/observation)")
@@ -101,6 +103,15 @@ class Experiment(ABC):
             summary = "\n".join(summary_parts)
             performance_stats.at[name, ("Model", "Summary")] = summary
             performance_stats.at[name, ("Model", "Name")] = name
+            performance_stats.at[name, ("Model", "Size (MB)")] = get_model_size_byte(
+                model
+            ) / (1024 * 1024)
+            performance_stats.at[
+                name, ("Model", "Trainable Params")
+            ] = get_trainable_params(model)
+            performance_stats.at[
+                name, ("Model", "Non-Trainable Params")
+            ] = get_non_trainable_params(model)
 
         # Move Model name to first column
         first_column = performance_stats.pop(("Model", "Name"))

@@ -21,6 +21,11 @@ def run_experiment(
     ],
 ):
     """Run an experiment with the specified models."""
+    if exp not in [ex.name for ex in experiments]:
+        typer.echo(
+            "Allowed Values for experiment are: ", [ex.name for ex in experiments]
+        )
+        exit(-1)
 
     experiment = next((ex for ex in experiments if ex.name == exp))
     typer.echo(f"Run {experiment.name}")

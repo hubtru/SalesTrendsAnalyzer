@@ -1,6 +1,6 @@
-,Model,loss,loss,loss,mean_absolute_error,mean_absolute_error,mean_absolute_error,Experiment,Experiment,Experiment,Experiment,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Timing,Model
-,Name,Training,Validation,Test,Training,Validation,Test,Name,Data Origin,Used Data Columns,Data Instances (train/valid/test),Batch Size,Epochs,Learning Rate,Optimizer,Shuffled Batches,Early Stopping,Window Width,Label Width,Shift,Predicted Label,Latency (ms/observation),Summary
-0,Persistence,1.9897615909576416,1.1337623596191406,1.1107027530670166,1.0667024850845337,0.8629388213157654,0.8459042310714722,Experiment1,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max',
+,Model,mean_absolute_error,mean_absolute_error,mean_absolute_error,loss,loss,loss,Experiment,Experiment,Experiment,Experiment,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Timing,Model,Model,Model,Model
+,Name,Training,Validation,Test,Training,Validation,Test,Name,Data Origin,Used Data Columns,Data Instances (train/valid/test),Batch Size,Epochs,Learning Rate,Optimizer,Shuffled Batches,Early Stopping,Window Width,Label Width,Shift,Predicted Labels,Latency (ms/observation),Summary,Size (MB),Trainable Params,Non-Trainable Params
+0,Persistence,1.0667023658752441,0.8629388213157654,0.8459042310714722,1.9897615909576416,1.133762240409851,1.1107027530670166,SingleOutput,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max',
  'temperature_2m_min',
  'temperature_2m_mean',
  'apparent_temperature_max',
@@ -86,16 +86,16 @@
  'WeekoftheMonth_cos',
  'WeekoftheMonth_sin',
  'DayoftheWeek_cos',
- 'DayoftheWeek_sin']",187/51/25,32,100,0.001,Adam,True,False,3,1,1,4260705920294,0.902653992395433,"Model: ""baseline""
+ 'DayoftheWeek_sin']",187/51/25,32,100,0.001,Adam,True,False,3,1,1,4260705920294,0.7491520912547471,"Model: ""baseline""
 _________________________________________________________________
- Layer (type)                Output Shape              Param #   
+ Layer (type)                Output Shape              Param #
 =================================================================
 =================================================================
 Total params: 0
 Trainable params: 0
 Non-trainable params: 0
-_________________________________________________________________"
-1,Linear,0.2470511794090271,2.2118189334869385,3.023616313934326,0.37332776188850403,1.1996333599090576,1.4208508729934692,Experiment1,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max',
+_________________________________________________________________",0.0,0.0,0.0
+1,Linear,0.37406423687934875,1.4169284105300903,1.970414161682129,0.24343004822731018,2.8785736560821533,6.8383355140686035,SingleOutput,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max',
  'temperature_2m_min',
  'temperature_2m_mean',
  'apparent_temperature_max',
@@ -181,22 +181,22 @@ _________________________________________________________________"
  'WeekoftheMonth_cos',
  'WeekoftheMonth_sin',
  'DayoftheWeek_cos',
- 'DayoftheWeek_sin']",187/51/25,32,100,0.001,Adam,True,False,3,1,1,4260705920294,0.7603384030418363,"Model: ""sequential""
+ 'DayoftheWeek_sin']",187/51/25,32,100,0.001,Adam,True,False,3,1,1,4260705920294,0.7508365019011239,"Model: ""sequential""
 _________________________________________________________________
- Layer (type)                Output Shape              Param #   
+ Layer (type)                Output Shape              Param #
 =================================================================
- flatten (Flatten)           (None, 261)               0         
-                                                                 
- dense (Dense)               (None, 1)                 262       
-                                                                 
- reshape (Reshape)           (None, 1, 1)              0         
-                                                                 
+ flatten (Flatten)           (None, 261)               0
+
+ dense (Dense)               (None, 1)                 262
+
+ reshape (Reshape)           (None, 1, 1)              0
+
 =================================================================
 Total params: 262
 Trainable params: 262
 Non-trainable params: 0
-_________________________________________________________________"
-2,Dense,0.9569612145423889,0.6348190307617188,0.6895337104797363,0.8334032893180847,0.6439461708068848,0.6790457367897034,Experiment1,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max',
+_________________________________________________________________",0.013427734375,262,0.0
+2,Dense,0.8130068182945251,0.6362051367759705,0.7165470719337463,0.9535797238349915,0.6609914302825928,0.7528945803642273,SingleOutput,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max',
  'temperature_2m_min',
  'temperature_2m_mean',
  'apparent_temperature_max',
@@ -282,30 +282,30 @@ _________________________________________________________________"
  'WeekoftheMonth_cos',
  'WeekoftheMonth_sin',
  'DayoftheWeek_cos',
- 'DayoftheWeek_sin']",187/51/25,32,100,0.001,Adam,True,False,3,1,1,4260705920294,0.778855513307984,"Model: ""sequential_1""
+ 'DayoftheWeek_sin']",187/51/25,32,100,0.001,Adam,True,False,3,1,1,4260705920294,0.8045893536121702,"Model: ""sequential_1""
 _________________________________________________________________
- Layer (type)                Output Shape              Param #   
+ Layer (type)                Output Shape              Param #
 =================================================================
- flatten_1 (Flatten)         (None, 261)               0         
-                                                                 
- dense_1 (Dense)             (None, 64)                16768     
-                                                                 
- dropout (Dropout)           (None, 64)                0         
-                                                                 
- dense_2 (Dense)             (None, 64)                4160      
-                                                                 
- dropout_1 (Dropout)         (None, 64)                0         
-                                                                 
- dense_3 (Dense)             (None, 1)                 65        
-                                                                 
- reshape_1 (Reshape)         (None, 1, 1)              0         
-                                                                 
+ flatten_1 (Flatten)         (None, 261)               0
+
+ dense_1 (Dense)             (None, 64)                16768
+
+ dropout (Dropout)           (None, 64)                0
+
+ dense_2 (Dense)             (None, 64)                4160
+
+ dropout_1 (Dropout)         (None, 64)                0
+
+ dense_3 (Dense)             (None, 1)                 65
+
+ reshape_1 (Reshape)         (None, 1, 1)              0
+
 =================================================================
 Total params: 20,993
 Trainable params: 20,993
 Non-trainable params: 0
-_________________________________________________________________"
-3,Multi Step Dense,0.9591684341430664,0.625921905040741,0.8703984618186951,0.8277984261512756,0.6232102513313293,0.8191116452217102,Experiment1,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max',
+_________________________________________________________________",0.09979248046875,20993,0.0
+3,Multi Step Dense,0.8053513765335083,0.6968623995780945,0.7161816358566284,0.9944850206375122,0.8358635306358337,0.7905594706535339,SingleOutput,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max',
  'temperature_2m_min',
  'temperature_2m_mean',
  'apparent_temperature_max',
@@ -391,30 +391,30 @@ _________________________________________________________________"
  'WeekoftheMonth_cos',
  'WeekoftheMonth_sin',
  'DayoftheWeek_cos',
- 'DayoftheWeek_sin']",187/51/25,32,100,0.001,Adam,True,False,3,1,1,4260705920294,0.7840950570342293,"Model: ""sequential_2""
+ 'DayoftheWeek_sin']",187/51/25,32,100,0.001,Adam,True,False,3,1,1,4260705920294,0.7770532319391471,"Model: ""sequential_2""
 _________________________________________________________________
- Layer (type)                Output Shape              Param #   
+ Layer (type)                Output Shape              Param #
 =================================================================
- flatten_2 (Flatten)         (None, 261)               0         
-                                                                 
- dense_4 (Dense)             (None, 32)                8384      
-                                                                 
- dropout_2 (Dropout)         (None, 32)                0         
-                                                                 
- dense_5 (Dense)             (None, 32)                1056      
-                                                                 
- dropout_3 (Dropout)         (None, 32)                0         
-                                                                 
- dense_6 (Dense)             (None, 1)                 33        
-                                                                 
- reshape_2 (Reshape)         (None, 1, 1)              0         
-                                                                 
+ flatten_2 (Flatten)         (None, 261)               0
+
+ dense_4 (Dense)             (None, 32)                8384
+
+ dropout_2 (Dropout)         (None, 32)                0
+
+ dense_5 (Dense)             (None, 32)                1056
+
+ dropout_3 (Dropout)         (None, 32)                0
+
+ dense_6 (Dense)             (None, 1)                 33
+
+ reshape_2 (Reshape)         (None, 1, 1)              0
+
 =================================================================
 Total params: 9,473
 Trainable params: 9,473
 Non-trainable params: 0
-_________________________________________________________________"
-4,Convolutional,0.018939658999443054,2.253871202468872,4.035853385925293,0.10975729674100876,1.2074768543243408,1.7155320644378662,Experiment1,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max',
+_________________________________________________________________",0.0561370849609375,9473,0.0
+4,Convolutional,4.4997523218626156e-05,1.1865530014038086,1.8633610010147095,1.6375444999994215e-08,2.4740850925445557,5.107874870300293,SingleOutput,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max',
  'temperature_2m_min',
  'temperature_2m_mean',
  'apparent_temperature_max',
@@ -500,26 +500,26 @@ _________________________________________________________________"
  'WeekoftheMonth_cos',
  'WeekoftheMonth_sin',
  'DayoftheWeek_cos',
- 'DayoftheWeek_sin']",187/51/25,32,100,0.001,Adam,True,False,3,1,1,4260705920294,0.7769391634981003,"Model: ""sequential_3""
+ 'DayoftheWeek_sin']",187/51/25,32,100,0.001,Adam,True,False,3,1,1,4260705920294,0.8139163498098991,"Model: ""sequential_3""
 _________________________________________________________________
- Layer (type)                Output Shape              Param #   
+ Layer (type)                Output Shape              Param #
 =================================================================
- conv1d (Conv1D)             (None, 2, 32)             5600      
-                                                                 
- flatten_3 (Flatten)         (None, 64)                0         
-                                                                 
- dense_7 (Dense)             (None, 32)                2080      
-                                                                 
- dense_8 (Dense)             (None, 1)                 33        
-                                                                 
- reshape_3 (Reshape)         (None, 1, 1)              0         
-                                                                 
+ conv1d (Conv1D)             (None, 2, 32)             5600
+
+ flatten_3 (Flatten)         (None, 64)                0
+
+ dense_7 (Dense)             (None, 32)                2080
+
+ dense_8 (Dense)             (None, 1)                 33
+
+ reshape_3 (Reshape)         (None, 1, 1)              0
+
 =================================================================
 Total params: 7,713
 Trainable params: 7,713
 Non-trainable params: 0
-_________________________________________________________________"
-5,RNN,1.2803569916286506e-05,0.8250328302383423,2.0457332134246826,0.0017722654156386852,0.6936370134353638,1.1694008111953735,Experiment1,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max',
+_________________________________________________________________",0.04779052734375,7713,0.0
+5,RNN,0.0013985417317599058,0.959480881690979,0.7305817604064941,9.786646842258051e-06,1.4202321767807007,0.8197745680809021,SingleOutput,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max',
  'temperature_2m_min',
  'temperature_2m_mean',
  'apparent_temperature_max',
@@ -605,20 +605,20 @@ _________________________________________________________________"
  'WeekoftheMonth_cos',
  'WeekoftheMonth_sin',
  'DayoftheWeek_cos',
- 'DayoftheWeek_sin']",187/51/25,32,100,0.001,Adam,True,False,3,1,1,4260705920294,0.799954372623554,"Model: ""sequential_4""
+ 'DayoftheWeek_sin']",187/51/25,32,100,0.001,Adam,True,False,3,1,1,4260705920294,0.8881711026615777,"Model: ""sequential_4""
 _________________________________________________________________
- Layer (type)                Output Shape              Param #   
+ Layer (type)                Output Shape              Param #
 =================================================================
- lstm (LSTM)                 (None, 3, 32)             15360     
-                                                                 
- flatten_4 (Flatten)         (None, 96)                0         
-                                                                 
- dense_9 (Dense)             (None, 1)                 97        
-                                                                 
- reshape_4 (Reshape)         (None, 1, 1)              0         
-                                                                 
+ lstm (LSTM)                 (None, 3, 32)             15360
+
+ flatten_4 (Flatten)         (None, 96)                0
+
+ dense_9 (Dense)             (None, 1)                 97
+
+ reshape_4 (Reshape)         (None, 1, 1)              0
+
 =================================================================
 Total params: 15,457
 Trainable params: 15,457
 Non-trainable params: 0
-_________________________________________________________________"
+_________________________________________________________________",0.07558441162109375,15457,0.0

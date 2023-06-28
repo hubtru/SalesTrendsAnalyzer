@@ -1,7 +1,10 @@
+import os
+import tempfile
 import time
 from dataclasses import dataclass
 
 import matplotlib.pyplot as plt
+import tensorflow as tf
 import numpy as np
 import pandas as pd
 
@@ -115,3 +118,23 @@ class Performances:
 
     def get_timing(self, model_name):
         return self.performances.timing[model_name]
+
+
+def get_model_size_byte(model):
+    _, keras_file = tempfile.mkstemp(".h5")
+    try:
+        tf.keras.models.save_model(model, keras_file, include_optimizer=False)
+    except NotImplementedError:  # IF model cannot be saved (e.g. basemodel)
+        return 0
+
+    return os.path.getsize(keras_file)
+
+
+def get_trainable_params(model):
+    return np.sum([tf.size(w_matrix).numpy() for w_matrix in model.trainable_variables])
+
+
+def get_non_trainable_params(model):
+    return np.sum(
+        [tf.size(w_matrix).numpy() for w_matrix in model.non_trainable_variables]
+    )
