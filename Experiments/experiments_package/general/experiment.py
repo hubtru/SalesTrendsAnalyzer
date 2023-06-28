@@ -11,11 +11,16 @@ from .performance import Performances
 class Experiment(ABC):
     """Class that encapsulates one type of experiment with certain learning parameters"""
 
-    def __init__(self, name, dataset_options: DatasetOptions):
-        self.data = get_window_dataset(dataset_options)
-        self.dataset_options = dataset_options
+    def __init__(self, name, path_to_output_folder):
+        self.dataset_options = self.get_dataset_options()
+        self.data = get_window_dataset(self.dataset_options)
         self.performance = Performances(self.data)
         self.name = name
+        self.path_to_output_folder = path_to_output_folder
+
+    @abstractmethod
+    def get_dataset_options(self) -> DatasetOptions:
+        """Return the options of for the dataset"""
 
     @abstractmethod
     def compile_and_fit(self, model):
@@ -37,24 +42,24 @@ class Experiment(ABC):
         """Runs the experiment"""
         for name, model in models.items():
             random.set_seed(0)
-            print("Run model: ", name)
+            print("Fit model: ", name)
 
             self.compile_and_fit(model)
-            print("  ... measuring performance:")
+            print("  ... measuring performance ...")
             self.performance.register_performance(name, model)
             print("----------------------------------")
 
         self.save_information(models)
 
     def save_information(self, models):
-        self.performance.save(f"./{self.name}_losses.csv")
-        print("Statistics Saved.")
-        self.performance.save_plot(f"./{self.name}_plot.jpg")
-        print("Image Saved.")
+        self.performance.save(f"{self.path_to_output_folder}/{self.name}_losses.csv")
+        print(" => Statistics Saved.")
+        self.performance.save_plot(f"{self.path_to_output_folder}/{self.name}_plot.jpg")
+        print(" => Image Saved.")
 
         info = self.create_info(models)
-        info.to_csv(f"./{self.name}_results.csv")
-        print("Experiment Info Saved.")
+        info.to_csv(f"{self.path_to_output_folder}/{self.name}_results.csv")
+        print(" => Experiment Info Saved.")
 
     def create_info(self, models: Dict[str, Any]):
         performance_stats = self.performance.create_performance_data()
@@ -78,7 +83,7 @@ class Experiment(ABC):
                 name, ("Timing", "Latency (ms/observation)")
             ] = self.performance.get_timing(name)
             summary_parts = []
-            model.summary(print_fn=lambda x: summary_parts.append(x))
+            model.summary(print_fn=summary_parts.append)
             summary = "\n".join(summary_parts)
             performance_stats.at[name, ("Model", "Summary")] = summary
 

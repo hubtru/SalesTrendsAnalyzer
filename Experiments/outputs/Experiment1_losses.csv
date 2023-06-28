@@ -1,0 +1,3 @@
+,mean_absolute_error,mean_absolute_error,mean_absolute_error,loss,loss,loss
+,Training,Validation,Test,Training,Validation,Test
+Persistence,1.0667024850845337,0.8629388213157654,0.8459041714668274,1.9897615909576416,1.133762240409851,1.1107027530670166
