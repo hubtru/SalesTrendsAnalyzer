@@ -67,7 +67,7 @@ class Experiment(ABC):
         ).replace(",", ",\n")
         performance_stats[
             [("Experiment", "Data Instances (train/valid/test)")]
-        ] = f"{len(self.data.train_df)}/{len(self.data.val_df)}/{len(self.data.test_df)}"
+        ] = f"{self.data.train_samples}/{self.data.val_samples}/{self.data.test_samples}"
         for setting, description in self.get_train_settings().items():
             performance_stats[[("Training Settings", setting)]] = description
 
@@ -76,7 +76,7 @@ class Experiment(ABC):
         for name, model in models.items():
             performance_stats.at[
                 name, ("Timing", "Latency (ms/observation)")
-            ] = "TODO"  # TODO: Add Timing
+            ] = self.performance.get_timing(name)
             summary_parts = []
             model.summary(print_fn=lambda x: summary_parts.append(x))
             summary = "\n".join(summary_parts)

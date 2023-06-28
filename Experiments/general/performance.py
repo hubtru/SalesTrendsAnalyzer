@@ -1,8 +1,9 @@
+import time
 from dataclasses import dataclass
 
 import matplotlib.pyplot as plt
-import pandas as pd
 import numpy as np
+import pandas as pd
 
 from .data import WindowGenerator
 
@@ -13,6 +14,7 @@ class TrackedPerformances:
     test = {}
     train = {}
     metrics_names = {}
+    timing = {}
 
 
 class Performances:
@@ -26,15 +28,21 @@ class Performances:
     def register_performance(self, name, model):
         self.model_names.append(name)
 
-        self.performances.valid[name] = model.evaluate(
-            self.window_generator.val, verbose=0
+        ##Create the datasets before processing for more consistent timing
+        validation = self.window_generator.val
+        training = self.window_generator.train
+        testing = self.window_generator.test
+
+        before = time.process_time()
+        self.performances.valid[name] = model.evaluate(validation, verbose=0)
+        self.performances.test[name] = model.evaluate(testing, verbose=0)
+        self.performances.train[name] = model.evaluate(training, verbose=0)
+        after = time.process_time()
+
+        self.performances.timing[name] = (
+            (after - before) * 1000 / self.window_generator.total_samples
         )
-        self.performances.test[name] = model.evaluate(
-            self.window_generator.test, verbose=0
-        )
-        self.performances.train[name] = model.evaluate(
-            self.window_generator.train, verbose=0
-        )
+
         self.performances.metrics_names[name] = model.metrics_names
 
     def create_performance_data(self):
@@ -103,3 +111,6 @@ class Performances:
         plt.xticks(ticks=x_pos, labels=self.model_names, rotation=45)
         plt.legend()
         plt.savefig(where)
+
+    def get_timing(self, model_name):
+        return self.performances.timing[model_name]

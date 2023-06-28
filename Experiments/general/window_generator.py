@@ -1,9 +1,5 @@
-import datetime
-import os
-
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
 import tensorflow as tf
 
 from .config import ProductIds
@@ -196,3 +192,22 @@ class WindowGenerator:
             # And cache it for next time
             self._example = result
         return result
+
+    def _count_samples(self, of):
+        return sum([x[0].shape[0] for x in list(of)])
+
+    @property
+    def train_samples(self):
+        return self._count_samples(self.train)
+
+    @property
+    def test_samples(self):
+        return self._count_samples(self.test)
+
+    @property
+    def val_samples(self):
+        return self._count_samples(self.val)
+
+    @property
+    def total_samples(self):
+        return self.val_samples + self.test_samples + self.train_samples
