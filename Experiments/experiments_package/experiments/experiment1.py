@@ -1,5 +1,5 @@
 import tensorflow as tf
-from experiments_package.general import DatasetOptions, Experiment
+from experiments_package.general import DatasetOptions, Experiment, ProductIds
 
 
 class Experiment1(Experiment):
@@ -29,6 +29,7 @@ class Experiment1(Experiment):
             "Window Width": 3,
             "Label Width": 1,
             "Shift": 1,
+            "Predicted Label": ProductIds.BENS_LUNCHTIME.value,
         }
 
     def get_dataset_options(self):
