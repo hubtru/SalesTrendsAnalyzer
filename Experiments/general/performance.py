@@ -37,7 +37,7 @@ class Performances:
         )
         self.performances.metrics_names[name] = model.metrics_names
 
-    def save(self, where):
+    def create_performance_data(self):
         index = pd.MultiIndex.from_product(
             [
                 list(
@@ -66,13 +66,16 @@ class Performances:
                 stats.at[(loss, "Test"), model_name] = self.performances.test[
                     model_name
                 ][index]
+        return stats.T
 
+    def save(self, where):
+        stats = self.create_performance_data()
         stats.to_csv(where)
 
     def save_plot(self, where):
         loss_name = "loss"
 
-        x = np.arange(len(self.model_names))
+        x_pos = np.arange(len(self.model_names))
         width = 0.3
         validation_perf = [
             self.performances.valid[model_name][
@@ -94,9 +97,9 @@ class Performances:
         ]
 
         plt.ylabel("Loss")
-        plt.bar(x - 0.3, train_perf, width, label="Train")
-        plt.bar(x, validation_perf, width, label="Validation")
-        plt.bar(x + 0.3, test_perf, width, label="Test")
-        plt.xticks(ticks=x, labels=self.model_names, rotation=45)
+        plt.bar(x_pos - 0.3, train_perf, width, label="Train")
+        plt.bar(x_pos, validation_perf, width, label="Validation")
+        plt.bar(x_pos + 0.3, test_perf, width, label="Test")
+        plt.xticks(ticks=x_pos, labels=self.model_names, rotation=45)
         plt.legend()
         plt.savefig(where)
