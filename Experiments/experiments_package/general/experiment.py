@@ -38,8 +38,13 @@ class Experiment(ABC):
         - training epochs
         """
 
-    def run(self, models: Dict[str, Any]):
+    @abstractmethod
+    def get_models(self) -> Dict[str, Any]:
+        pass
+
+    def run(self):
         """Runs the experiment"""
+        models = self.get_models()
         for name, model in models.items():
             random.set_seed(0)
             print("Fit model: ", name)

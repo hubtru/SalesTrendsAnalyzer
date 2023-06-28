@@ -1,5 +1,6 @@
 import tensorflow as tf
 from experiments_package.general import DatasetOptions, Experiment, ProductIds
+import experiments_package.models.single_step as single_step
 
 
 class Experiment1(Experiment):
@@ -51,3 +52,22 @@ class Experiment1(Experiment):
             label_width=1,
             shift=1,
         )
+
+    def get_models(self):
+        return {
+            "Persistence": single_step.Baseline(
+                label_index=self.data.column_indices[ProductIds.BENS_LUNCHTIME.value],
+                forecasting_width=1,
+            ),
+            "Linear": single_step.Linear(
+                window_width=3, label_width=1, feature_size=87
+            ),
+            "Dense": single_step.Dense(window_width=3, label_width=1, feature_size=87),
+            "Multi Step Dense": single_step.MultiStepDense(
+                window_width=3, label_width=1, feature_size=87
+            ),
+            "Convolutional": single_step.Convolutional(
+                window_width=3, label_width=1, feature_size=87
+            ),
+            "RNN": single_step.RNN(window_width=3, label_width=1, feature_size=87),
+        }
