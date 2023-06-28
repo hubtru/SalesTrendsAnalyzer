@@ -63,21 +63,30 @@ class Experiment(ABC):
 
     def create_info(self, models: Dict[str, Any]):
         performance_stats = self.performance.create_performance_data()
+
+        ## Erperiment Meta - Data
         performance_stats[[("Experiment", "Name")]] = self.name
+
         performance_stats[
             [("Experiment", "Data Origin")]
         ] = self.dataset_options.data_origin
+
         performance_stats[[("Experiment", "Used Data Columns")]] = str(
             list(self.data.train_df.columns.values)
         ).replace(",", ",\n")
+
         performance_stats[
             [("Experiment", "Data Instances (train/valid/test)")]
         ] = f"{self.data.train_samples}/{self.data.val_samples}/{self.data.test_samples}"
+
+        ## The Settings for Learning Algorithm
         for setting, description in self.get_train_settings().items():
             performance_stats[[("Training Settings", setting)]] = description
 
+        ## The Individual Model Settings
         performance_stats[[("Timing", "Latency (ms/observation)")]] = " "
         performance_stats[[("Model", "Summary")]] = " "
+        performance_stats[[("Model", "Name")]] = " "
         for name, model in models.items():
             performance_stats.at[
                 name, ("Timing", "Latency (ms/observation)")
@@ -86,5 +95,10 @@ class Experiment(ABC):
             model.summary(print_fn=summary_parts.append)
             summary = "\n".join(summary_parts)
             performance_stats.at[name, ("Model", "Summary")] = summary
+            performance_stats.at[name, ("Model", "Name")] = name
 
-        return performance_stats
+        # Move Model name to first column
+        first_column = performance_stats.pop(("Model", "Name"))
+        performance_stats.insert(0, ("Model", "Name"), first_column)
+
+        return performance_stats.reset_index(drop=True)
