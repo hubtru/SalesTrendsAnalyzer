@@ -1,7 +1,6 @@
 import tensorflow as tf
 from experiments_package.general.config import DatasetOptions
 from experiments_package.general.experiment import Experiment
-from experiments_package.models.Baseline import Baseline
 
 
 class Experiment1(Experiment):
