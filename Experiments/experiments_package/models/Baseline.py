@@ -8,7 +8,7 @@ class Baseline(tf.keras.Model):
         self.forecasting_width = label_width
         self.repeat_last = repeat_last
 
-    def call(self, inputs):
+    def call(self, inputs, training=None, mask=None):
         if self.repeat_last:
             result = tf.concat(
                 [

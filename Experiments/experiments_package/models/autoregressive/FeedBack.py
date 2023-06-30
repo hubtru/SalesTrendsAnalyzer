@@ -20,7 +20,7 @@ class FeedBack(tf.keras.Model):
         prediction = self.dense(x)
         return prediction, state
 
-    def call(self, inputs, training=None):
+    def call(self, inputs, training=None, mask=None):
         # Use a TensorArray to capture dynamically unrolled outputs.
         predictions = []
         # Initialize the LSTM state.

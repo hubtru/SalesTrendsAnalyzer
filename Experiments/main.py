@@ -28,7 +28,7 @@ def run_experiment(
             autocompletion=lambda: [ex.name for ex in experiments],
         ),
     ] = None,
-    all: bool = False,
+    run_all: bool = False,
 ):
     """Run an experiment with the specified models."""
     if exp:
@@ -41,7 +41,7 @@ def run_experiment(
         experiment = next((ex for ex in experiments if ex.name == exp))
         typer.echo(f"Run {experiment.name}")
         experiment.run()
-    elif all:
+    elif run_all:
         typer.echo("Run all experiments")
         for experiment in experiments:
             experiment.run()

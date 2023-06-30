@@ -1,5 +1,5 @@
 import tensorflow as tf
-from experiments_package.general import DatasetOptions, Experiment, ProductIds
+from experiments_package.general import DatasetOptions, Experiment
 from experiments_package.models.autoregressive import FeedBack
 
 
