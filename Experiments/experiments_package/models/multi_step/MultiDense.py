@@ -1,14 +1,12 @@
 import tensorflow as tf
 
 
-def MultiDense(label_width, num_labels):
+def MultiDense(label_width, num_labels, window_width, num_features):
     return tf.keras.Sequential(
         [
-            # Take the last time step.
-            # Shape [batch, time, features] => [batch, 1, features]
-            tf.keras.layers.Lambda(lambda x: x[:, -1:, :]),
+            tf.keras.layers.Flatten(input_shape=(window_width, num_features)),
             # Shape => [batch, 1, dense_units]
-            tf.keras.layers.Dense(512, activation="relu"),
+            tf.keras.layers.Dense(16, activation="relu"),
             # Shape => [batch, out_steps*features]
             tf.keras.layers.Dense(
                 label_width * num_labels, kernel_initializer=tf.initializers.zeros()

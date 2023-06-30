@@ -8,6 +8,7 @@ def MultiLSTM(label_width, num_labels):
             # Adding more `lstm_units` just overfits more quickly.
             tf.keras.layers.LSTM(32, return_sequences=False),
             # Shape => [batch, out_steps*features].
+            tf.keras.layers.Dropout(rate=0.8),
             tf.keras.layers.Dense(
                 label_width * num_labels, kernel_initializer=tf.initializers.zeros()
             ),
