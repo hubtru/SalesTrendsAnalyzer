@@ -1,0 +1,86 @@
+,Model,mean_absolute_error,mean_absolute_error,mean_absolute_error,loss,loss,loss,Experiment,Experiment,Experiment,Experiment,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Timing,Model,Model,Model,Model
+,Name,Training,Validation,Test,Training,Validation,Test,Name,Data Origin,Used Data Columns,Data Instances (train/valid/test),Batch Size,Epochs,Learning Rate,Optimizer,Shuffled Batches,Early Stopping,Window Width,Label Width,Shift,Predicted Labels,Latency (ms/observation),Summary,Size (MB),Trainable Params,Non-Trainable Params
+0,RepeatBaseline,0.5815404653549194,0.7292726039886475,0.6894098520278931,1.4907840490341187,3.2762813568115234,2.8191468715667725,MultiStep,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max', 'temperature_2m_min', 'temperature_2m_mean', 'apparent_temperature_max', 'apparent_temperature_min', 'apparent_temperature_mean', 'precipitation_sum', 'windgusts_10m_max', 'windspeed_10m_max', 'shortwave_radiation_sum', 'precipitation_hours', 'evapotranspiration_res', 'IsSnowfall', 'weather_clouds developing', 'weather_clouds dissolving', 'weather_no clouds developing', 'weather_precipitation', 'weather_unchanged sky state', 'isWeekend', 'isWeekStart', 'isWeekEnd', 'isMonthStart', 'isMonthEnd', 'isHoliday', '4260705920003', '4260705920010', '4260705920027', '4260705920034', '4260705920041', '4260705920058', '4260705920065', '4260705920072', '4260705920089', '4260705920096', '4260705920102', '4260705920119', '4260705920126', '4260705920133', '4260705920140', '4260705920157', '4260705920164', '4260705920171', '4260705920188', '4260705920195', '4260705920201', '4260705920218', '4260705920225', '4260705920232', '4260705920249', '4260705920256', '4260705920263', '4260705920270', '4260705920287', '4260705920294', '4260705920300', '4260705920317', '4260705920324', '4260705920331', '4260705920355', '4260705920362', '4260705920393', '4260705920409', '4260705920416', '4260705920423', '4260705920430', '4260705920461', '4260705920478', '4260705920492', '4260705920508', '4260705920515', '4260705920522', '4260705920539', '4260705920546', '4260705920553', '4260705920560', '4260705920577', '4260705920584', '4260705920591', '4260705920607', '4260705920638', 'total_quantity_day', 'DayoftheMonth_cos', 'DayoftheMonth_sin', 'WeekoftheMonth_cos', 'WeekoftheMonth_sin', 'DayoftheWeek_cos', 'DayoftheWeek_sin']",176/40/14,32,100,0.001,Adam,True,False,10,5,5,All,1.0348217391304422,"Model: ""baseline""
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+=================================================================
+Total params: 0
+Trainable params: 0
+Non-trainable params: 0
+_________________________________________________________________",0.0,0.0,0.0
+1,MultiStepLastBasline,0.5440413951873779,0.6884716153144836,0.6484160423278809,1.3999136686325073,3.1130223274230957,2.6882312297821045,MultiStep,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max', 'temperature_2m_min', 'temperature_2m_mean', 'apparent_temperature_max', 'apparent_temperature_min', 'apparent_temperature_mean', 'precipitation_sum', 'windgusts_10m_max', 'windspeed_10m_max', 'shortwave_radiation_sum', 'precipitation_hours', 'evapotranspiration_res', 'IsSnowfall', 'weather_clouds developing', 'weather_clouds dissolving', 'weather_no clouds developing', 'weather_precipitation', 'weather_unchanged sky state', 'isWeekend', 'isWeekStart', 'isWeekEnd', 'isMonthStart', 'isMonthEnd', 'isHoliday', '4260705920003', '4260705920010', '4260705920027', '4260705920034', '4260705920041', '4260705920058', '4260705920065', '4260705920072', '4260705920089', '4260705920096', '4260705920102', '4260705920119', '4260705920126', '4260705920133', '4260705920140', '4260705920157', '4260705920164', '4260705920171', '4260705920188', '4260705920195', '4260705920201', '4260705920218', '4260705920225', '4260705920232', '4260705920249', '4260705920256', '4260705920263', '4260705920270', '4260705920287', '4260705920294', '4260705920300', '4260705920317', '4260705920324', '4260705920331', '4260705920355', '4260705920362', '4260705920393', '4260705920409', '4260705920416', '4260705920423', '4260705920430', '4260705920461', '4260705920478', '4260705920492', '4260705920508', '4260705920515', '4260705920522', '4260705920539', '4260705920546', '4260705920553', '4260705920560', '4260705920577', '4260705920584', '4260705920591', '4260705920607', '4260705920638', 'total_quantity_day', 'DayoftheMonth_cos', 'DayoftheMonth_sin', 'WeekoftheMonth_cos', 'WeekoftheMonth_sin', 'DayoftheWeek_cos', 'DayoftheWeek_sin']",176/40/14,32,100,0.001,Adam,True,False,10,5,5,All,0.986469565217371,"Model: ""baseline_1""
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+=================================================================
+Total params: 0
+Trainable params: 0
+Non-trainable params: 0
+_________________________________________________________________",0.0,0.0,0.0
+2,Multi Convolution,0.41529303789138794,0.9481701850891113,1.0734115839004517,0.5081568360328674,2.4589905738830566,3.2583301067352295,MultiStep,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max', 'temperature_2m_min', 'temperature_2m_mean', 'apparent_temperature_max', 'apparent_temperature_min', 'apparent_temperature_mean', 'precipitation_sum', 'windgusts_10m_max', 'windspeed_10m_max', 'shortwave_radiation_sum', 'precipitation_hours', 'evapotranspiration_res', 'IsSnowfall', 'weather_clouds developing', 'weather_clouds dissolving', 'weather_no clouds developing', 'weather_precipitation', 'weather_unchanged sky state', 'isWeekend', 'isWeekStart', 'isWeekEnd', 'isMonthStart', 'isMonthEnd', 'isHoliday', '4260705920003', '4260705920010', '4260705920027', '4260705920034', '4260705920041', '4260705920058', '4260705920065', '4260705920072', '4260705920089', '4260705920096', '4260705920102', '4260705920119', '4260705920126', '4260705920133', '4260705920140', '4260705920157', '4260705920164', '4260705920171', '4260705920188', '4260705920195', '4260705920201', '4260705920218', '4260705920225', '4260705920232', '4260705920249', '4260705920256', '4260705920263', '4260705920270', '4260705920287', '4260705920294', '4260705920300', '4260705920317', '4260705920324', '4260705920331', '4260705920355', '4260705920362', '4260705920393', '4260705920409', '4260705920416', '4260705920423', '4260705920430', '4260705920461', '4260705920478', '4260705920492', '4260705920508', '4260705920515', '4260705920522', '4260705920539', '4260705920546', '4260705920553', '4260705920560', '4260705920577', '4260705920584', '4260705920591', '4260705920607', '4260705920638', 'total_quantity_day', 'DayoftheMonth_cos', 'DayoftheMonth_sin', 'WeekoftheMonth_cos', 'WeekoftheMonth_sin', 'DayoftheWeek_cos', 'DayoftheWeek_sin']",176/40/14,32,100,0.001,Adam,True,False,10,5,5,All,0.996395652173917,"Model: ""sequential""
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ lambda (Lambda)             (None, 3, 87)             0         
+                                                                 
+ conv1d (Conv1D)             (None, 1, 16)             4192      
+                                                                 
+ dense (Dense)               (None, 1, 435)            7395      
+                                                                 
+ reshape (Reshape)           (None, 5, 87)             0         
+                                                                 
+=================================================================
+Total params: 11,587
+Trainable params: 11,587
+Non-trainable params: 0
+_________________________________________________________________",0.05859375,11587.0,0.0
+3,Multi Dense,0.38625088334083557,0.9394338130950928,1.1061089038848877,0.4687279760837555,2.591637134552002,3.618910551071167,MultiStep,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max', 'temperature_2m_min', 'temperature_2m_mean', 'apparent_temperature_max', 'apparent_temperature_min', 'apparent_temperature_mean', 'precipitation_sum', 'windgusts_10m_max', 'windspeed_10m_max', 'shortwave_radiation_sum', 'precipitation_hours', 'evapotranspiration_res', 'IsSnowfall', 'weather_clouds developing', 'weather_clouds dissolving', 'weather_no clouds developing', 'weather_precipitation', 'weather_unchanged sky state', 'isWeekend', 'isWeekStart', 'isWeekEnd', 'isMonthStart', 'isMonthEnd', 'isHoliday', '4260705920003', '4260705920010', '4260705920027', '4260705920034', '4260705920041', '4260705920058', '4260705920065', '4260705920072', '4260705920089', '4260705920096', '4260705920102', '4260705920119', '4260705920126', '4260705920133', '4260705920140', '4260705920157', '4260705920164', '4260705920171', '4260705920188', '4260705920195', '4260705920201', '4260705920218', '4260705920225', '4260705920232', '4260705920249', '4260705920256', '4260705920263', '4260705920270', '4260705920287', '4260705920294', '4260705920300', '4260705920317', '4260705920324', '4260705920331', '4260705920355', '4260705920362', '4260705920393', '4260705920409', '4260705920416', '4260705920423', '4260705920430', '4260705920461', '4260705920478', '4260705920492', '4260705920508', '4260705920515', '4260705920522', '4260705920539', '4260705920546', '4260705920553', '4260705920560', '4260705920577', '4260705920584', '4260705920591', '4260705920607', '4260705920638', 'total_quantity_day', 'DayoftheMonth_cos', 'DayoftheMonth_sin', 'WeekoftheMonth_cos', 'WeekoftheMonth_sin', 'DayoftheWeek_cos', 'DayoftheWeek_sin']",176/40/14,32,100,0.001,Adam,True,False,10,5,5,All,1.171373913043446,"Model: ""sequential_1""
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ flatten (Flatten)           (None, 870)               0         
+                                                                 
+ dense_1 (Dense)             (None, 16)                13936     
+                                                                 
+ dense_2 (Dense)             (None, 435)               7395      
+                                                                 
+ reshape_1 (Reshape)         (None, 5, 87)             0         
+                                                                 
+=================================================================
+Total params: 21,331
+Trainable params: 21,331
+Non-trainable params: 0
+_________________________________________________________________",0.09576416015625,21331.0,0.0
+4,Mutli Linear,0.40199708938598633,1.0652270317077637,1.2018104791641235,0.44232264161109924,2.766294479370117,3.590437650680542,MultiStep,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max', 'temperature_2m_min', 'temperature_2m_mean', 'apparent_temperature_max', 'apparent_temperature_min', 'apparent_temperature_mean', 'precipitation_sum', 'windgusts_10m_max', 'windspeed_10m_max', 'shortwave_radiation_sum', 'precipitation_hours', 'evapotranspiration_res', 'IsSnowfall', 'weather_clouds developing', 'weather_clouds dissolving', 'weather_no clouds developing', 'weather_precipitation', 'weather_unchanged sky state', 'isWeekend', 'isWeekStart', 'isWeekEnd', 'isMonthStart', 'isMonthEnd', 'isHoliday', '4260705920003', '4260705920010', '4260705920027', '4260705920034', '4260705920041', '4260705920058', '4260705920065', '4260705920072', '4260705920089', '4260705920096', '4260705920102', '4260705920119', '4260705920126', '4260705920133', '4260705920140', '4260705920157', '4260705920164', '4260705920171', '4260705920188', '4260705920195', '4260705920201', '4260705920218', '4260705920225', '4260705920232', '4260705920249', '4260705920256', '4260705920263', '4260705920270', '4260705920287', '4260705920294', '4260705920300', '4260705920317', '4260705920324', '4260705920331', '4260705920355', '4260705920362', '4260705920393', '4260705920409', '4260705920416', '4260705920423', '4260705920430', '4260705920461', '4260705920478', '4260705920492', '4260705920508', '4260705920515', '4260705920522', '4260705920539', '4260705920546', '4260705920553', '4260705920560', '4260705920577', '4260705920584', '4260705920591', '4260705920607', '4260705920638', 'total_quantity_day', 'DayoftheMonth_cos', 'DayoftheMonth_sin', 'WeekoftheMonth_cos', 'WeekoftheMonth_sin', 'DayoftheWeek_cos', 'DayoftheWeek_sin']",176/40/14,32,100,0.001,Adam,True,False,10,5,5,All,1.2240347826086715,"Model: ""sequential_2""
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ lambda_1 (Lambda)           (None, 1, 87)             0         
+                                                                 
+ dense_3 (Dense)             (None, 1, 435)            38280     
+                                                                 
+ reshape_2 (Reshape)         (None, 5, 87)             0         
+                                                                 
+=================================================================
+Total params: 38,280
+Trainable params: 38,280
+Non-trainable params: 0
+_________________________________________________________________",0.15779495239257812,38280.0,0.0
+5,Multi LSTM,0.4771862328052521,0.8713784217834473,1.0298192501068115,0.6853569746017456,2.5789635181427,3.807666063308716,MultiStep,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max', 'temperature_2m_min', 'temperature_2m_mean', 'apparent_temperature_max', 'apparent_temperature_min', 'apparent_temperature_mean', 'precipitation_sum', 'windgusts_10m_max', 'windspeed_10m_max', 'shortwave_radiation_sum', 'precipitation_hours', 'evapotranspiration_res', 'IsSnowfall', 'weather_clouds developing', 'weather_clouds dissolving', 'weather_no clouds developing', 'weather_precipitation', 'weather_unchanged sky state', 'isWeekend', 'isWeekStart', 'isWeekEnd', 'isMonthStart', 'isMonthEnd', 'isHoliday', '4260705920003', '4260705920010', '4260705920027', '4260705920034', '4260705920041', '4260705920058', '4260705920065', '4260705920072', '4260705920089', '4260705920096', '4260705920102', '4260705920119', '4260705920126', '4260705920133', '4260705920140', '4260705920157', '4260705920164', '4260705920171', '4260705920188', '4260705920195', '4260705920201', '4260705920218', '4260705920225', '4260705920232', '4260705920249', '4260705920256', '4260705920263', '4260705920270', '4260705920287', '4260705920294', '4260705920300', '4260705920317', '4260705920324', '4260705920331', '4260705920355', '4260705920362', '4260705920393', '4260705920409', '4260705920416', '4260705920423', '4260705920430', '4260705920461', '4260705920478', '4260705920492', '4260705920508', '4260705920515', '4260705920522', '4260705920539', '4260705920546', '4260705920553', '4260705920560', '4260705920577', '4260705920584', '4260705920591', '4260705920607', '4260705920638', 'total_quantity_day', 'DayoftheMonth_cos', 'DayoftheMonth_sin', 'WeekoftheMonth_cos', 'WeekoftheMonth_sin', 'DayoftheWeek_cos', 'DayoftheWeek_sin']",176/40/14,32,100,0.001,Adam,True,False,10,5,5,All,1.2855086956521504,"Model: ""sequential_3""
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ lstm (LSTM)                 (None, 32)                15360     
+                                                                 
+ dropout (Dropout)           (None, 32)                0         
+                                                                 
+ dense_4 (Dense)             (None, 435)               14355     
+                                                                 
+ reshape_3 (Reshape)         (None, 5, 87)             0         
+                                                                 
+=================================================================
+Total params: 29,715
+Trainable params: 29,715
+Non-trainable params: 0
+_________________________________________________________________",0.13050079345703125,29715.0,0.0
