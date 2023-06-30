@@ -83,6 +83,7 @@ def run_experiment(
 
 @app.command("combine-results")
 def combine():
+    """Combine all available results into one output table."""
     combine_results(OUTPUT_PATH)
 
 

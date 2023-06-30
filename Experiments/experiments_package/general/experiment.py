@@ -85,6 +85,7 @@ class Experiment(ABC):
     def run(self):
         """Runs the experiment"""
         models = self.get_models()
+        print(f"Run Experiment: {self.name}")
         for name, model in models.items():
             random.set_seed(0)
             print("Fit model: ", name)
