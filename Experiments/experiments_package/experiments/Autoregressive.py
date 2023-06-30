@@ -1,9 +1,9 @@
 import tensorflow as tf
 from experiments_package.general import DatasetOptions, Experiment, ProductIds
-import experiments_package.models.single_step as single_step
+from experiments_package.models.autoregressive import FeedBack
 
 
-class Experiment1(Experiment):
+class Autoregressive(Experiment):
     def compile_and_fit(self, model):
         model.compile(
             loss=tf.keras.losses.MeanSquaredError(),
@@ -27,10 +27,10 @@ class Experiment1(Experiment):
             "Optimizer": "Adam",
             "Shuffled Batches": "True",
             "Early Stopping": "False",
-            "Window Width": 3,
-            "Label Width": 1,
-            "Shift": 1,
-            "Predicted Labels": ProductIds.BENS_LUNCHTIME.value,
+            "Window Width": 10,
+            "Label Width": 5,
+            "Shift": 5,
+            "Predicted Labels": "All",
         }
 
     def get_dataset_options(self):
@@ -48,27 +48,13 @@ class Experiment1(Experiment):
                 "Season_Summer",
                 "Season_Winter",
             ],
-            window_width=3,
-            label_width=1,
-            shift=1,
-            label_columns=[ProductIds.BENS_LUNCHTIME.value],
+            window_width=10,
+            label_width=5,
+            shift=5,
+            label_columns=None,
         )
 
     def get_models(self):
         return {
-            "Persistence": single_step.Baseline(
-                label_index=self.data.column_indices[ProductIds.BENS_LUNCHTIME.value],
-                forecasting_width=1,
-            ),
-            "Linear": single_step.Linear(
-                window_width=3, label_width=1, feature_size=87
-            ),
-            "Dense": single_step.Dense(window_width=3, label_width=1, feature_size=87),
-            "Multi Step Dense": single_step.MultiStepDense(
-                window_width=3, label_width=1, feature_size=87
-            ),
-            "Convolutional": single_step.Convolutional(
-                window_width=3, label_width=1, feature_size=87
-            ),
-            "RNN": single_step.RNN(window_width=3, label_width=1, feature_size=87),
+            "FeedBack": FeedBack(units=32, label_width=5, num_labels=87),
         }

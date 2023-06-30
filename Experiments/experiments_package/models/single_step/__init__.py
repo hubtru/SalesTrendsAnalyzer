@@ -1,4 +1,3 @@
-from .Baseline import Baseline
 from .Convolutional import Convolutional
 from .Dense import Dense
 from .Linear import Linear

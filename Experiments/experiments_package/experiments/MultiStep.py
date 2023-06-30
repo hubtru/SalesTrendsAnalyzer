@@ -1,9 +1,15 @@
 import tensorflow as tf
 from experiments_package.general import DatasetOptions, Experiment, ProductIds
-from experiments_package.models.single_step import Baseline, Dense, RNN, ResidualRNN
+from experiments_package.models import Baseline
+from experiments_package.models.multi_step import (
+    MultiConvolution,
+    MultiDense,
+    MultiLinear,
+    MultiLSTM,
+)
 
 
-class Experiment2(Experiment):
+class MultiStep(Experiment):
     def compile_and_fit(self, model):
         model.compile(
             loss=tf.keras.losses.MeanSquaredError(),
@@ -27,9 +33,9 @@ class Experiment2(Experiment):
             "Optimizer": "Adam",
             "Shuffled Batches": "True",
             "Early Stopping": "False",
-            "Window Width": 3,
-            "Label Width": 1,
-            "Shift": 1,
+            "Window Width": 10,
+            "Label Width": 5,
+            "Shift": 5,
             "Predicted Labels": "All",
         }
 
@@ -48,20 +54,22 @@ class Experiment2(Experiment):
                 "Season_Summer",
                 "Season_Winter",
             ],
-            window_width=3,
-            label_width=1,
-            shift=1,
+            window_width=10,
+            label_width=5,
+            shift=5,
             label_columns=None,
         )
 
     def get_models(self):
         return {
-            "Baseline": Baseline(label_index=None, forecasting_width=1),
-            "Dense": Dense(
-                window_width=3, label_width=1, feature_size=87, num_labels=87
+            "RepeatBaseline": Baseline(label_index=None, label_width=5),
+            "MultiStepLastBasline": Baseline(
+                label_index=None, label_width=5, repeat_last=True
             ),
-            "RNN": RNN(window_width=3, label_width=1, feature_size=87, num_labels=87),
-            "ResidualRNN": ResidualRNN(
-                window_width=3, label_width=1, feature_size=87, num_labels=87
+            "Multi Convolution": MultiConvolution(
+                conv_width=3, label_width=5, num_labels=87
             ),
+            "Multi Dense": MultiDense(label_width=5, num_labels=87),
+            "Mutli Linear": MultiLinear(label_width=5, num_labels=87),
+            "Multi LSTM": MultiLSTM(label_width=5, num_labels=87),
         }

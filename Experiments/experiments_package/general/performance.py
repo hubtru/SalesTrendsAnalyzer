@@ -113,7 +113,7 @@ class Performances:
         plt.bar(x_pos + 0.3, test_perf, width, label="Test")
         plt.xticks(ticks=x_pos, labels=self.model_names, rotation=45)
         plt.legend()
-        plt.subplots_adjust(bottom=0.1)
+        plt.subplots_adjust(bottom=0.25)
         plt.savefig(where)
 
     def get_timing(self, model_name):
