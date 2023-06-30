@@ -10,6 +10,7 @@ from experiments_package.experiments import (
     SingleStepMultiOutput,
     SingleStepSingleOutput,
 )
+from experiments_package.general import combine_results
 
 OUTPUT_PATH = "./outputs"
 
@@ -66,18 +67,23 @@ def run_model(exp: str, model: str):
 
 @app.command("experiment")
 def run_experiment(
-    exp: str = None,
+    exp: str,
     run_all: bool = False,
 ):
     """Run an experiment with all registered models."""
-    if exp:
-        experiment = get_experiment(exp)
-        typer.echo(f"Run {experiment.name}")
-        experiment.run()
-    elif run_all:
+    if run_all:
         typer.echo("Run all experiments")
         for experiment in experiments:
             experiment.run()
+    else:
+        experiment = get_experiment(exp)
+        typer.echo(f"Run {experiment.name}")
+        experiment.run()
+
+
+@app.command("combine-results")
+def combine():
+    combine_results(OUTPUT_PATH)
 
 
 if __name__ == "__main__":

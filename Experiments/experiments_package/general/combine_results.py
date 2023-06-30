@@ -8,11 +8,11 @@ OUTPUT_PATH = "./outputs"
 RESULT_SUFFIX = "results.csv"
 
 
-def main():
+def combine_results(output_path):
     all_results = []
-    for filename in os.listdir(OUTPUT_PATH):
+    for filename in os.listdir(output_path):
         if filename.endswith(RESULT_SUFFIX):
-            all_results.append(pd.read_csv(OUTPUT_PATH + "/" + filename, header=[0, 1]))
+            all_results.append(pd.read_csv(output_path + "/" + filename, header=[0, 1]))
     if len(all_results) == 0:
         print("No result-files found")
         sys.exit(1)
@@ -28,4 +28,4 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    combine_results(OUTPUT_PATH)
