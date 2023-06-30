@@ -2,6 +2,9 @@ import matplotlib.pyplot as plt
 
 
 def plot_history(history):
-    plt.plot(history.history["loss"], label="Loss (Train)")
-    plt.plot(history.history["val_loss"], label="Loss (Validation)")
+    plt.plot(history.history["loss"], label="Train")
+    plt.plot(history.history["val_loss"], label="Validation")
+    plt.title("Loss Development")
+    plt.xlabel("Epoch")
+    plt.ylabel("Loss")
     plt.legend()

@@ -1,11 +1,14 @@
+import sys
+
 import typer
-from sys import exit
-from typing_extensions import Annotated
 from experiments_package.experiments import (
-    SingleStepSingleOutput,
-    SingleStepMultiOutput,
-    MultiStep,
     Autoregressive,
+    MultiOutputWithoutWeather,
+    MultiStep,
+    MultiStepWithoutWeather,
+    SingleOutputWithoutWeather,
+    SingleStepMultiOutput,
+    SingleStepSingleOutput,
 )
 
 OUTPUT_PATH = "./outputs"
@@ -16,29 +19,59 @@ experiments = [
     SingleStepMultiOutput("MultiOutput", OUTPUT_PATH),
     MultiStep("MultiStep", OUTPUT_PATH),
     Autoregressive("Autoregressive", OUTPUT_PATH),
+    MultiOutputWithoutWeather("MultiOutput-NoWeather", OUTPUT_PATH),
+    MultiStepWithoutWeather("MultiStep-NoWeather", OUTPUT_PATH),
+    SingleOutputWithoutWeather("SingleOutput-NoWeather", OUTPUT_PATH),
 ]
 
 
-@app.command()
+def get_experiment(exp: str):
+    if exp not in [ex.name for ex in experiments]:
+        typer.echo(
+            f"Allowed Values for experiment are: {str([ex.name for ex in experiments])}"
+        )
+        sys.exit(-1)
+
+    return next((ex for ex in experiments if ex.name == exp))
+
+
+@app.command("get-experiments")
+def show_experiments():
+    """Show the registered Experiments"""
+    typer.echo("Following experiments are registered:")
+    for exp in experiments:
+        typer.echo(f"   - {exp.name}")
+
+
+@app.command("get-models")
+def show_models(exp: str):
+    """Show the models available in a certain experiment"""
+    experiment = get_experiment(exp)
+    models = experiment.get_models().keys()
+    typer.echo(f"Following Models are registered in Experiment <<{experiment.name}>> :")
+    for model in models:
+        typer.echo(f"   - {model}")
+
+
+@app.command("run")
+def run_model(exp: str, model: str):
+    """Run a perticular model of an experiment"""
+    experiment = get_experiment(exp)
+    models = experiment.get_models().keys()
+    if not model in models:
+        typer.echo(f"Model not existent, allowed Values: {str(models)}")
+
+    experiment.run_model(model)
+
+
+@app.command("experiment")
 def run_experiment(
-    exp: Annotated[
-        str,
-        typer.Option(
-            help="The Experiment to run.",
-            autocompletion=lambda: [ex.name for ex in experiments],
-        ),
-    ] = None,
+    exp: str = None,
     run_all: bool = False,
 ):
-    """Run an experiment with the specified models."""
+    """Run an experiment with all registered models."""
     if exp:
-        if exp not in [ex.name for ex in experiments]:
-            typer.echo(
-                f"Allowed Values for experiment are: {str([ex.name for ex in experiments])}"
-            )
-            exit(-1)
-
-        experiment = next((ex for ex in experiments if ex.name == exp))
+        experiment = get_experiment(exp)
         typer.echo(f"Run {experiment.name}")
         experiment.run()
     elif run_all:

@@ -1,8 +1,10 @@
 from abc import ABC, abstractmethod
 from typing import Any, Dict
 
+import matplotlib.pyplot as plt
 from tensorflow import random
 
+from .analysis import plot_history
 from .config import DatasetOptions
 from .data import get_window_dataset
 from .performance import (
@@ -47,6 +49,38 @@ class Experiment(ABC):
     def get_models(self) -> Dict[str, Any]:
         pass
 
+    def run_model(self, model_name: str):
+        models = self.get_models()
+        if model_name not in models.keys():
+            raise ValueError(f"Model {model_name} not found")
+
+        model = models[model_name]
+        single_performance = Performances(self.data)
+
+        random.set_seed(0)
+        print("Fit model: ", model_name)
+
+        history = self.compile_and_fit(model)
+        print("  ... measuring performance ...")
+        single_performance.register_performance(model_name, model)
+        print("----------------------------------")
+
+        single_performance.save(
+            f"{self.path_to_output_folder}/{model_name}_{self.name}_losses.csv"
+        )
+        print(" => Statistics Saved.")
+        single_performance.save_plot(
+            f"{self.path_to_output_folder}/{model_name}_{self.name}_plot.jpg"
+        )
+        plt.clf()
+        print(" => Image Saved.")
+
+        plot_history(history)
+        plt.savefig(
+            f"{self.path_to_output_folder}/{model_name}_{self.name}_history.jpg"
+        )
+        plt.clf()
+
     def run(self):
         """Runs the experiment"""
         models = self.get_models()
@@ -66,6 +100,7 @@ class Experiment(ABC):
         print(" => Statistics Saved.")
         self.performance.save_plot(f"{self.path_to_output_folder}/{self.name}_plot.jpg")
         print(" => Image Saved.")
+        plt.clf()
 
         info = self.create_info(models)
         info.to_csv(f"{self.path_to_output_folder}/{self.name}_results.csv")
@@ -83,7 +118,7 @@ class Experiment(ABC):
 
         performance_stats[[("Experiment", "Used Data Columns")]] = str(
             list(self.data.train_df.columns.values)
-        ).replace(",", ",\n")
+        )
 
         performance_stats[
             [("Experiment", "Data Instances (train/valid/test)")]
