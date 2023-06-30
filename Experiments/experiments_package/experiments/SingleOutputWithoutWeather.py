@@ -13,9 +13,7 @@ class SingleOutputWithoutWeather(Experiment):
         )
 
         history = model.fit(
-            self.data.train,
-            epochs=100,
-            validation_data=self.data.val,
+            self.data.train, epochs=100, validation_data=self.data.val, verbose=0
         )
 
         return history

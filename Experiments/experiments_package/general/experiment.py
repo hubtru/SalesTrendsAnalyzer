@@ -61,6 +61,7 @@ class Experiment(ABC):
         print("Fit model: ", model_name)
 
         history = self.compile_and_fit(model)
+        print(" ... Done")
         print("  ... measuring performance ...")
         single_performance.register_performance(model_name, model)
         print("----------------------------------")
@@ -89,6 +90,7 @@ class Experiment(ABC):
             print("Fit model: ", name)
 
             self.compile_and_fit(model)
+            print(" ... Done")
             print("  ... measuring performance ...")
             self.performance.register_performance(name, model)
             print("----------------------------------")
