@@ -57,7 +57,7 @@ class SingleStepMultiOutput(Experiment):
 
     def get_models(self):
         return {
-            "Baseline": Baseline(label_index=None, forecasting_width=1),
+            "Baseline": Baseline(label_index=None, label_width=1),
             "Dense": Dense(
                 window_width=3, label_width=1, feature_size=87, num_labels=87
             ),

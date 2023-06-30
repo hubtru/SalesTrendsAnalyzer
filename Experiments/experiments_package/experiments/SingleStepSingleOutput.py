@@ -59,7 +59,7 @@ class SingleStepSingleOutput(Experiment):
         return {
             "Persistence": Baseline(
                 label_index=self.data.column_indices[ProductIds.BENS_LUNCHTIME.value],
-                forecasting_width=1,
+                label_width=1,
             ),
             "Linear": single_step.Linear(
                 window_width=3, label_width=1, feature_size=87

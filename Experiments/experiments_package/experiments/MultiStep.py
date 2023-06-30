@@ -69,7 +69,9 @@ class MultiStep(Experiment):
             "Multi Convolution": MultiConvolution(
                 conv_width=3, label_width=5, num_labels=87
             ),
-            "Multi Dense": MultiDense(label_width=5, num_labels=87),
+            "Multi Dense": MultiDense(
+                label_width=5, num_labels=87, num_features=87, window_width=10
+            ),
             "Mutli Linear": MultiLinear(label_width=5, num_labels=87),
             "Multi LSTM": MultiLSTM(label_width=5, num_labels=87),
         }
