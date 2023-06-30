@@ -67,10 +67,12 @@ def run_model(exp: str, model: str):
 
 @app.command("experiment")
 def run_experiment(
-    exp: str,
-    run_all: bool = False,
+    exp: str = None,
+    run_all: bool = None,
 ):
     """Run an experiment with all registered models."""
+    if exp is None:
+        run_all = True
     if run_all:
         typer.echo("Run all experiments")
         for experiment in experiments:
