@@ -1,5 +1,6 @@
 import os
 import sys
+import datetime
 
 import pandas as pd
 
@@ -24,7 +25,9 @@ def combine_results(output_path):
     first_column = combined_results.pop(("Experiment", "Name"))
     combined_results.insert(1, ("Experiment", "Name"), first_column)
 
-    combined_results.to_csv("all_results.csv")
+    combined_results.to_csv(
+        f'{datetime.datetime.today().strftime("%Y%m%d_%H%M%S")}_all_results.csv'
+    )
 
 
 if __name__ == "__main__":
