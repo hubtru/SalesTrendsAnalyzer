@@ -18,7 +18,7 @@ class Baseline(tf.keras.Model):
                 -2,  # concatenate the time steps
             )
         else:
-            result = inputs[:, -self.forecasting_width :, self.label_index]
+            result = inputs[:, -self.forecasting_width:, self.label_index]
 
         if len(result.shape) == 2:
             return result[:, :, tf.newaxis]

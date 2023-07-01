@@ -7,8 +7,10 @@ from typing import Any, Dict
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 
-from .config import denormalize, ProductIds
+from .config import ProductIds, denormalize_list
+from .data import get_all_product_ids, get_no_sushi_in_product
 from .performance import (
     get_model_size_byte,
     get_non_trainable_params,
@@ -32,14 +34,16 @@ def save_history_plot(history, where):
 def create_results_table(
         performance,
         experiment_name,
-        data_origin,
-        feature_names,
-        train_set_instances,
-        valid_set_instances,
-        test_set_instances,
+        data_origin: str,
+        window_generator: WindowGenerator,
         train_settings: Dict[str, str],
         models: Dict[str, Any],
 ):
+    feature_names = str(list(window_generator.train_df.columns.values)),
+    train_set_instances = window_generator.train_samples,
+    valid_set_instances = window_generator.val_samples,
+    test_set_instances = window_generator.test_samples,
+
     performance_stats = performance.create_performance_data()
     # Experiment Meta - Data
     performance_stats[[("Experiment", "Name")]] = experiment_name
@@ -73,11 +77,53 @@ def create_results_table(
             name, ("Model", "Non-Trainable Params")
         ] = get_non_trainable_params(model)
 
+        wasted, not_enough = get_sushi_stats(model, window_generator)
+        performance_stats.at[name, ("Performance", "Avg. Sushi wasted /day")] = wasted
+        performance_stats.at[
+            name, ("Performance", "Avg. sushi not enough /day")] = not_enough
+
     # Move Model name to first column
     first_column = performance_stats.pop(("Model", "Name"))
     performance_stats.insert(0, ("Model", "Name"), first_column)
 
     return performance_stats.reset_index(drop=True)
+
+
+def get_sushi_stats(model, window_generator: WindowGenerator):
+    product_ids = get_all_product_ids()
+    product_ids = [p_id for p_id in product_ids if p_id in window_generator.column_indices.keys()]
+    if window_generator.label_columns is not None:
+        product_ids = [p_id for p_id in product_ids if p_id in window_generator.label_columns]
+
+    total_days = 0
+    wasted = 0
+    not_enough = 0
+    for p_id in product_ids:
+        pred_time, predictions = get_model_predictions_sequentially_with_time(model, window_generator, label=p_id)
+        label_time, labels = window_generator.get_feature_sequentially_with_time(p_id)
+        combined_times = list(set(pred_time) & set(label_time))
+        beginning = min(combined_times)
+        end = max(combined_times)
+        pred_time = pd.Series(sorted(list(pred_time)))
+        label_time = pd.Series(sorted(list(label_time)))
+
+        pred_slice = slice(pred_time[pred_time == beginning].index[0], list(pred_time[pred_time == end].index)[-1])
+        label_slice = slice(label_time[label_time == beginning].index[0], list(label_time[label_time == end].index)[-1])
+
+        # round to integer, as we cannot produce "half sets"
+        predictions = np.rint(np.array(predictions[pred_slice])).reshape((-1,))
+        labels = np.rint(np.array(labels[label_slice])).reshape((-1,))
+
+        sushi_in_product = get_no_sushi_in_product(p_id)
+
+        wasted += np.sum(np.maximum(predictions - labels, 0)) * sushi_in_product
+        not_enough += np.sum(np.maximum(labels - predictions, 0)) * sushi_in_product
+        total_days += len(labels)
+
+    if total_days == 0:
+        return 0, 0
+
+    return int(np.rint(wasted / total_days)), int(np.rint(not_enough / total_days))
 
 
 def get_model_predictions_sequentially_with_time(model, window_generator: WindowGenerator, label: str):
@@ -87,8 +133,9 @@ def get_model_predictions_sequentially_with_time(model, window_generator: Window
 
     time = window_generator.time_stamps[window_generator.total_window_size - window_generator.label_width:]
     # Only pick the first of the labels predicted
-    predictions = np.array([denormalize(model(single_input)[:, 0, label_index], window_generator.normalization_params,
-                                        labels=[label]) for single_input in inputs])
+    predictions = denormalize_list(model(inputs)[:, 0, label_index],
+                                   window_generator.normalization_params,
+                                   label)
     return time, predictions
 
 

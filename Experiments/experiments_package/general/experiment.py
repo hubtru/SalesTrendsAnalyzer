@@ -81,11 +81,8 @@ class Experiment(ABC):
         create_results_table(
             performance=self.performance,
             experiment_name=self.name,
+            window_generator=self.data,
             data_origin=self.dataset_options.data_origin,
-            feature_names=str(list(self.data.train_df.columns.values)),
-            train_set_instances=self.data.train_samples,
-            valid_set_instances=self.data.val_samples,
-            test_set_instances=self.data.test_samples,
             train_settings=self.get_train_settings(),
             models=models,
         ).to_csv(f"{self.path_to_output_folder}/{self.name}_results.csv")

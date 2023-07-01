@@ -102,3 +102,27 @@ def get_window_dataset(dataset_options: DatasetOptions) -> WindowGenerator:
         normalization_params=normalization_params,
         time_stamps=time_stamps
     )
+
+
+# import globally to save computation
+product_mapping = pd.read_csv("./../Data/products_map.csv")
+menu = pd.read_csv("./../Data/Sushi Menu.csv")
+
+
+def get_all_product_ids():
+    global product_mapping
+    return list(set(list(product_mapping["EAN"].astype(str))))
+
+
+def get_no_sushi_in_product(p_id: str):
+    """
+    Gets the productId of a sushi menu item (e.g. 4260705920294) and returns the Number of individual
+    sushi pieces are in this menu item.
+    """
+    global product_mapping
+    global menu
+    return 10
+
+    p_num = product_mapping[product_mapping["EAN"].astype(str) == p_id]['Nummer']
+
+    return menu[menu['EAN'].astype(str) == p_num]["Count"].astype(int)

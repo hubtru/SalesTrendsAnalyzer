@@ -1,12 +1,17 @@
 """
 Deccorators that are useful in certain situations.
 """
-from tensorflow import random
+import random
+
+import numpy as np
+import tensorflow as tf
 
 
 def with_random_seed_reset(func):
     def inner(*args, **kwargs):
-        random.set_seed(0)
+        tf.random.set_seed(0)
+        random.seed(0)
+        np.random.seed(0)
         return func(*args, **kwargs)
 
     return inner

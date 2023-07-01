@@ -48,3 +48,11 @@ def denormalize(data, used_normalization, labels=None):
             data * used_normalization["std"][labels]
             + used_normalization["mean"][labels]
     )
+
+
+def denormalize_list(data_list, used_normalization, label):
+    data_list = np.array(data_list)
+    return (
+            data_list * used_normalization["std"][label]
+            + used_normalization["mean"][label]
+    )

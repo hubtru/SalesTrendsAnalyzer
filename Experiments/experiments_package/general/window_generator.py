@@ -45,7 +45,7 @@ class WindowGenerator:
         self.val_df = val_df
         self.test_df = test_df
         self.normalization_params = normalization_params
-        self.time_stamps = time_stamps
+        self.time_stamps = [pd.Timestamp(x) for x in time_stamps]
 
         # Work out the label column indices.
         self.column_indices = {name: i for i, name in enumerate(train_df.columns)}
@@ -222,9 +222,8 @@ class WindowGenerator:
             batch_size=1,
             shuffle=False,
         )
-        return [x[0] for x in samples]
+        return np.concatenate([x[0] for x in samples], axis=0)
 
     def get_feature_sequentially_with_time(self, label):
         data = pd.concat([self.train_df, self.val_df, self.test_df])
-        pd.concat([self.train_df, self.val_df, self.test_df])
         return self.time_stamps, denormalize(data, self.normalization_params)[label]
