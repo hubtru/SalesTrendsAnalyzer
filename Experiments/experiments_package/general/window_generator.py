@@ -116,10 +116,11 @@ class WindowGenerator:
         inputs, labels = self.example
         plt.figure(figsize=(12, 8))
         plot_col_index = self.column_indices[plot_col]
+        
         max_n = min(max_subplots, len(inputs))
         for n in range(max_n):
             plt.subplot(max_n, 1, n + 1)
-            plt.ylabel(f"{plot_col} [normed]")
+            plt.ylabel(plot_col)
             plt.plot(
                 self.input_indices,
                 denormalize(inputs[n, :, plot_col_index]),
@@ -146,10 +147,9 @@ class WindowGenerator:
             )
 
             if model is not None:
-                predictions = model(inputs)
                 plt.scatter(
                     self.label_indices,
-                    denormalize(predictions[n, :, label_col_index]),
+                    denormalize(model(inputs)[n, :, label_col_index]),
                     marker="X",
                     edgecolors="k",
                     label="Predictions",

@@ -40,6 +40,7 @@ class Performances:
         training = self.window_generator.train
         testing = self.window_generator.test
 
+        print("  ... measuring performance ...")
         before = time.process_time()
         self.performances.valid[name] = model.evaluate(validation, verbose=0)
         self.performances.test[name] = model.evaluate(testing, verbose=0)
@@ -86,6 +87,7 @@ class Performances:
     def save(self, where):
         stats = self.create_performance_data()
         stats.to_csv(where)
+        print(" => Statistics Saved.")
 
     def save_plot(self, where):
         loss_name = "loss"
@@ -119,6 +121,8 @@ class Performances:
         plt.legend()
         plt.subplots_adjust(bottom=0.25)
         plt.savefig(where)
+        print(" => Performance Plot Saved.")
+        plt.clf()
 
     def get_timing(self, model_name):
         return self.performances.timing[model_name]
