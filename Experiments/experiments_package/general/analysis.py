@@ -7,8 +7,6 @@ from typing import Any, Dict
 
 import matplotlib.pyplot as plt
 import numpy as np
-import pandas as pd
-import tensorflow as tf
 
 from .config import denormalize, ProductIds
 from .performance import (
@@ -45,9 +43,7 @@ def create_results_table(
     performance_stats = performance.create_performance_data()
     # Experiment Meta - Data
     performance_stats[[("Experiment", "Name")]] = experiment_name
-
     performance_stats[[("Experiment", "Data Origin")]] = data_origin
-
     performance_stats[[("Experiment", "Used Data Columns")]] = feature_names
 
     performance_stats[
@@ -84,49 +80,43 @@ def create_results_table(
     return performance_stats.reset_index(drop=True)
 
 
-def save_predictions_plot(model, window_generator: WindowGenerator, where: str):
-    samples = list(tf.keras.utils.timeseries_dataset_from_array(
-        data=np.array(pd.concat([window_generator.train_df, window_generator.val_df, window_generator.test_df]),
-                      dtype=np.float32),
-        targets=None,
-        sequence_length=window_generator.total_window_size,
-        sequence_stride=1,
-        shuffle=False,
-        batch_size=1,
-    ).map(window_generator.split_window))
-    inputs = [x[0] for x in samples]
+def get_model_predictions_sequentially_with_time(model, window_generator: WindowGenerator, label: str):
+    inputs = window_generator.get_all_inputs_sequentially()
 
+    label_index = window_generator.label_columns_indices[label]
+
+    time = window_generator.time_stamps[window_generator.total_window_size - window_generator.label_width:]
+    # Only pick the first of the labels predicted
+    predictions = np.array([denormalize(model(single_input)[:, 0, label_index], window_generator.normalization_params,
+                                        labels=[label]) for single_input in inputs])
+    return time, predictions
+
+
+def save_predictions_plot(model, window_generator: WindowGenerator, where: str):
     label_columns = window_generator.label_columns
 
     if label_columns is None:
+        # If all columns are predicted, only this sushi type is shown
         label_columns = [ProductIds.BENS_LUNCHTIME.value]
 
     num_plots = len(label_columns)
-
     fig = plt.figure(figsize=(16 * num_plots, 4))
-    data = pd.concat([window_generator.train_df, window_generator.val_df, window_generator.test_df])
 
     for i, label in enumerate(label_columns):
-        label_index = window_generator.label_columns_indices[
-            label] if window_generator.label_columns_indices is not None else window_generator.column_indices[label]
-
         ax = fig.add_subplot(num_plots, 1, i + 1)
         ax.set_title(f"Predictions and Labels for >>{label}<<")
 
+        x, y = window_generator.get_feature_sequentially_with_time(label)
         ax.scatter(
-            window_generator.time_stamps,
-            denormalize(data, window_generator.normalization_params)[label],
+            x, y,
             edgecolors="k",
             label="Labels",
             c="#2ca02c",
-            s=32,
+            s=32
         )
-        print(model(inputs[0])[:, 0, label_index])
+        x, y = get_model_predictions_sequentially_with_time(model, window_generator, label)
         ax.scatter(
-            window_generator.time_stamps[window_generator.total_window_size - window_generator.label_width:],
-            [denormalize(model(single_input)[:, 0, label_index],
-                         window_generator.normalization_params,
-                         labels=[label]) for single_input in inputs],
+            x, y,
             marker="X",
             edgecolors="k",
             label="Predictions",

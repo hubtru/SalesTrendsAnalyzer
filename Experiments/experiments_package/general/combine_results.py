@@ -3,12 +3,11 @@ Handles the combination of experiment results that
 were saved in the OUTPUT_PATH.
 """
 
+import datetime
 import os
 import sys
-import datetime
 
 import pandas as pd
-
 
 OUTPUT_PATH = "./outputs"
 RESULT_SUFFIX = "results.csv"
@@ -25,8 +24,7 @@ def combine_results(output_path):
 
     combined_results = pd.concat(all_results, ignore_index=True)
 
-    # move experiment name to forst column:
-
+    # move experiment name to first column:
     first_column = combined_results.pop(("Experiment", "Name"))
     combined_results.insert(1, ("Experiment", "Name"), first_column)
 

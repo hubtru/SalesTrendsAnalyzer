@@ -5,6 +5,7 @@ of the timeseries data to learn from.
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 import tensorflow as tf
 
 from .config import ProductIds
@@ -47,14 +48,15 @@ class WindowGenerator:
         self.time_stamps = time_stamps
 
         # Work out the label column indices.
+        self.column_indices = {name: i for i, name in enumerate(train_df.columns)}
         self.label_columns = label_columns
+
         if label_columns is not None:
             self.label_columns_indices = {
                 name: i for i, name in enumerate(label_columns)
             }
         else:
-            self.label_columns_indices = None
-        self.column_indices = {name: i for i, name in enumerate(train_df.columns)}
+            self.label_columns_indices = self.column_indices
 
         # Work out the window parameters.
         self.input_width = input_width
@@ -131,10 +133,7 @@ class WindowGenerator:
                 zorder=-10,
             )
 
-            if self.label_columns:
-                label_col_index = self.label_columns_indices.get(plot_col, None)
-            else:
-                label_col_index = plot_col_index
+            label_col_index = self.label_columns_indices.get(plot_col, None)
 
             if label_col_index is None:
                 continue
@@ -164,14 +163,14 @@ class WindowGenerator:
 
             plt.xlabel("Time [day]")
 
-    def make_dataset(self, data):
+    def make_dataset(self, data, batch_size=32, shuffle=True):
         return tf.keras.utils.timeseries_dataset_from_array(
             data=np.array(data, dtype=np.float32),
             targets=None,
             sequence_length=self.total_window_size,
             sequence_stride=1,
-            shuffle=True,
-            batch_size=32,
+            shuffle=shuffle,
+            batch_size=batch_size,
         ).map(self.split_window)
 
     @property
@@ -216,3 +215,16 @@ class WindowGenerator:
     @property
     def total_samples(self):
         return self.val_samples + self.test_samples + self.train_samples
+
+    def get_all_inputs_sequentially(self):
+        samples = self.make_dataset(
+            data=pd.concat([self.train_df, self.val_df, self.test_df]),
+            batch_size=1,
+            shuffle=False,
+        )
+        return [x[0] for x in samples]
+
+    def get_feature_sequentially_with_time(self, label):
+        data = pd.concat([self.train_df, self.val_df, self.test_df])
+        pd.concat([self.train_df, self.val_df, self.test_df])
+        return self.time_stamps, denormalize(data, self.normalization_params)[label]

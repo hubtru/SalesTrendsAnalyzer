@@ -3,6 +3,8 @@ import tensorflow as tf
 from experiments_package.general import DatasetOptions, Experiment, ProductIds
 from experiments_package.models import Baseline
 
+from experiments_package.models.single_step import Persistence7DaysBack
+
 
 class SingleOutput7Days(Experiment):
     def compile_and_fit(self, model):
@@ -125,4 +127,8 @@ class SingleOutput7Days(Experiment):
                 window_width=7, label_width=1, feature_size=32
             ),
             "RNN": single_step.RNN(window_width=7, label_width=1, feature_size=32),
+            "PersistenceSameDayLastWeek": Persistence7DaysBack(
+                label_index=self.data.column_indices[ProductIds.BENS_LUNCHTIME.value],
+                label_width=1,
+            )
         }
