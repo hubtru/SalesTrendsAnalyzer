@@ -4,18 +4,14 @@ It has abstract-methods that have to be implemented for a
 certain experiment.
 """
 
-
 from abc import ABC, abstractmethod
 from typing import Any, Dict
 
-import matplotlib.pyplot as plt
-
-
-from .analysis import create_results_table, save_history_plot
+from .analysis import create_results_table, save_history_plot, save_predictions_plot
 from .config import DatasetOptions
 from .data import get_window_dataset
-from .performance import Performances
 from .decorators import with_random_seed_reset
+from .performance import Performances
 
 
 class Experiment(ABC):
@@ -111,3 +107,5 @@ class Experiment(ABC):
             history,
             where=f"{self.path_to_output_folder}/{model_name}_{self.name}_history.jpg",
         )
+        save_predictions_plot(model, self.data,
+                              where=f"{self.path_to_output_folder}/{model_name}_{self.name}_predictions.jpg", )

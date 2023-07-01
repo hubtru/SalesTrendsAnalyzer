@@ -11,6 +11,7 @@ from experiments_package.experiments import (
     SingleStepMultiOutput,
     SingleStepSingleOutput,
     SingleOutputNoIds,
+    SingleOutput7Days
 )
 from experiments_package.general import combine_results
 
@@ -26,6 +27,7 @@ experiments = [
     MultiStepWithoutWeather("MultiStep-NoWeather", OUTPUT_PATH),
     SingleOutputWithoutWeather("SingleOutput-NoWeather", OUTPUT_PATH),
     SingleOutputNoIds("SingleOutput-NoIds", OUTPUT_PATH),
+    SingleOutput7Days("SingleOutput-7Days", OUTPUT_PATH),
 ]
 
 
@@ -34,7 +36,7 @@ def get_experiment(exp: str):
         typer.echo(
             f"Allowed Values for experiment are: {str([ex.name for ex in experiments])}"
         )
-        sys.exit(-1)
+        sys.exit(0)
 
     return next((ex for ex in experiments if ex.name == exp))
 

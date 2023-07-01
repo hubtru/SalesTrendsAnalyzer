@@ -8,18 +8,22 @@ import numpy as np
 import tensorflow as tf
 
 from .config import ProductIds
+from .config import denormalize
 
 
 class WindowGenerator:
     def __init__(
-        self,
-        input_width,
-        label_width,
-        shift,
-        train_df,
-        val_df,
-        test_df,
-        label_columns=None,
+            self,
+            input_width,
+            label_width,
+            shift,
+            train_df,
+            val_df,
+            test_df,
+            normalization_params,
+            time_stamps,
+            label_columns=None,
+
     ):
         """
         This drawing indicates the meaning of the attributes:
@@ -32,10 +36,15 @@ class WindowGenerator:
                                                |
 
         """
+        if label_width > shift:
+            raise ValueError("unnecessary labels included in data")
+
         # Store the raw data.
         self.train_df = train_df
         self.val_df = val_df
         self.test_df = test_df
+        self.normalization_params = normalization_params
+        self.time_stamps = time_stamps
 
         # Work out the label column indices.
         self.label_columns = label_columns
@@ -43,6 +52,8 @@ class WindowGenerator:
             self.label_columns_indices = {
                 name: i for i, name in enumerate(label_columns)
             }
+        else:
+            self.label_columns_indices = None
         self.column_indices = {name: i for i, name in enumerate(train_df.columns)}
 
         # Work out the window parameters.
@@ -99,31 +110,22 @@ class WindowGenerator:
         return inputs, labels
 
     def plot(
-        self,
-        model=None,
-        plot_col=ProductIds.BENS_LUNCHTIME.value,
-        max_subplots=3,
-        used_normalization=None,
+            self,
+            model=None,
+            plot_col=ProductIds.BENS_LUNCHTIME.value,
+            max_subplots=3,
     ):
-        def denormalize(data):
-            if used_normalization is None:
-                return data
-            return (
-                data * used_normalization["std"][plot_col]
-                + used_normalization["mean"][plot_col]
-            )
-
         inputs, labels = self.example
         plt.figure(figsize=(12, 8))
         plot_col_index = self.column_indices[plot_col]
-        
+
         max_n = min(max_subplots, len(inputs))
         for n in range(max_n):
             plt.subplot(max_n, 1, n + 1)
             plt.ylabel(plot_col)
             plt.plot(
                 self.input_indices,
-                denormalize(inputs[n, :, plot_col_index]),
+                denormalize(inputs[n, :, plot_col_index], self.normalization_params)[plot_col],
                 label="Inputs",
                 marker=".",
                 zorder=-10,
@@ -139,7 +141,7 @@ class WindowGenerator:
 
             plt.scatter(
                 self.label_indices,
-                denormalize(labels[n, :, label_col_index]),
+                denormalize(labels[n, :, label_col_index], self.normalization_params)[plot_col],
                 edgecolors="k",
                 label="Labels",
                 c="#2ca02c",
@@ -149,7 +151,7 @@ class WindowGenerator:
             if model is not None:
                 plt.scatter(
                     self.label_indices,
-                    denormalize(model(inputs)[n, :, label_col_index]),
+                    denormalize(model(inputs)[n, :, label_col_index], self.normalization_params)[plot_col],
                     marker="X",
                     edgecolors="k",
                     label="Predictions",
@@ -195,7 +197,8 @@ class WindowGenerator:
             self._example = result
         return result
 
-    def _count_samples(self, of):
+    @staticmethod
+    def _count_samples(of):
         return sum([x[0].shape[0] for x in list(of)])
 
     @property

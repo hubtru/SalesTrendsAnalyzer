@@ -6,3 +6,4 @@ from .MultiOutputWithoutWeather import MultiOutputWithoutWeather
 from .SingleOutputWithoutWeather import SingleOutputWithoutWeather
 from .MultiStepWithoutWeather import MultiStepWithoutWeather
 from .SingleOutputNoIds import SingleOutputNoIds
+from .SingleOutput_7days import SingleOutput7Days

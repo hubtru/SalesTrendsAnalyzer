@@ -7,6 +7,8 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import List, Optional
 
+import numpy as np
+
 USED_STORE_ID = 4051653300272
 
 
@@ -22,3 +24,27 @@ class DatasetOptions:
     data_origin: str
     drop_columns: List[str]
     label_columns: Optional[List[str]] = None
+
+
+def normalize(data, norm_values_to_use=None):
+    norm_values_used = norm_values_to_use
+    if norm_values_to_use is None:
+        std = data.std()
+        std = std.where(lambda x: np.invert(np.isclose(x, 0)), other=0.3)
+        norm_values_used = {
+            "std": std,
+            "mean": data.mean(),
+        }
+
+    return (data - norm_values_used["mean"]) / (
+        norm_values_used["std"]
+    ), norm_values_used
+
+
+def denormalize(data, used_normalization, labels=None):
+    if labels is None:
+        labels = slice(None)
+    return (
+            data * used_normalization["std"][labels]
+            + used_normalization["mean"][labels]
+    )

@@ -7,7 +7,7 @@ import math
 import numpy as np
 import pandas as pd
 
-from .config import USED_STORE_ID, DatasetOptions, ProductIds
+from .config import USED_STORE_ID, DatasetOptions, normalize
 from .window_generator import WindowGenerator
 
 
@@ -31,8 +31,8 @@ def _load_data(data_origin):
 
 
 def _add_fourier_features(
-    data,
-    features_to_period=None,
+        data,
+        features_to_period=None,
 ):
     if features_to_period is None:
         features_to_period = {
@@ -70,30 +70,15 @@ def _split_data(data, train_frac=0.7, valid_frac=0.2, test_frac=0.1):
         )
 
     size = len(data)
-    train_df = data[0 : int(size * train_frac)]
-    val_df = data[int(size * train_frac) : int(size * (train_frac + valid_frac))]
-    test_df = data[int(size * (train_frac + valid_frac)) :]
+    train_df = data[0: int(size * train_frac)]
+    val_df = data[int(size * train_frac): int(size * (train_frac + valid_frac))]
+    test_df = data[int(size * (train_frac + valid_frac)):]
 
     return train_df, val_df, test_df
 
 
-def _normalize(data, norm_values_to_use=None):
-    norm_values_used = norm_values_to_use
-    if norm_values_to_use is None:
-        std = data.std()
-        std = std.where(lambda x: np.invert(np.isclose(x, 0)), other=0.3)
-        norm_values_used = {
-            "std": std,
-            "mean": data.mean(),
-        }
-
-    return (data - norm_values_used["mean"]) / (
-        norm_values_used["std"]
-    ), norm_values_used
-
-
 def get_window_dataset(dataset_options: DatasetOptions) -> WindowGenerator:
-    data, _ = _get_dataset(dataset_options.data_origin)
+    data, time_stamps = _get_dataset(dataset_options.data_origin)
 
     data = data.drop(
         labels=dataset_options.drop_columns,
@@ -102,9 +87,9 @@ def get_window_dataset(dataset_options: DatasetOptions) -> WindowGenerator:
 
     train_df, val_df, test_df = _split_data(data)
 
-    train_df, normalization_params = _normalize(train_df)
-    val_df, _ = _normalize(val_df, normalization_params)
-    test_df, _ = _normalize(test_df, normalization_params)
+    train_df, normalization_params = normalize(train_df)
+    val_df, _ = normalize(val_df, normalization_params)
+    test_df, _ = normalize(test_df, normalization_params)
 
     return WindowGenerator(
         input_width=dataset_options.window_width,
@@ -114,4 +99,6 @@ def get_window_dataset(dataset_options: DatasetOptions) -> WindowGenerator:
         train_df=train_df,
         val_df=val_df,
         test_df=test_df,
+        normalization_params=normalization_params,
+        time_stamps=time_stamps
     )
