@@ -6,37 +6,37 @@
 
 ## Directory Structure
 
--   **experiments_package**
-    -   package for the code of the experiments
-    -   **experiments**
-        -   place for all experiments that are defined
-    -   **models**
-        -   place where all models are located and can be reused in different experiments
-    -   **general**
-        -   folder for the setup of experiments and generating results
--   **outputs**
+- **experiments_package**
+    - package for the code of the experiments
+    - **experiments**
+        - place for all experiments that are defined
+    - **models**
+        - place where all models are located and can be reused in different experiments
+    - **general**
+        - folder for the setup of experiments and generating results
+- **outputs**
 
-    -   place to save results of the experiments
+    - place to save results of the experiments
 
--   **main.py**
-    -   Script to run experiments
+- **main.py**
+    - Script to run experiments
 
 <br>
 
 # Usage
 
-```bash
+```shell
 python main.py --help
 ```
 
 e.g.:
 
-```bash
-python run <experiment> <model>
+```shell
+python main.py run <experiment> <model>
 ```
 
-```bash
-python experiment SingleOutput
+```shell
+python main.py experiment --exp SingleOutput
 ```
 
 Following things have to be considered while using:
@@ -45,17 +45,18 @@ Following things have to be considered while using:
 
 > Running a whole experiment generates outputs and results for that experiment.
 
-> To produce the "all_results"-csv-file for documentation one has to run the combine-results command. Repeat this step after each new experiment run in order to update.
+> To produce the "all_results"-csv-file for documentation one has to run the combine-results command. Repeat this step
+> after each new experiment run in order to update.
 
 <br>
 
 # How to add a new experiment
 
--   Define your models in the **models** directory
--   create a new experiment-file in **experiments**
--   instantiate a subclass of **general.Experiment**
--   fill the abstract methods below
--   Register the experiment in "experiments" array of the "main.py" file in main directory
+- Define your models in the **models** directory
+- create a new experiment-file in **experiments**
+- instantiate a subclass of **general.Experiment**
+- fill the abstract methods below
+- Register the experiment in "experiments" array of the "main.py" file in main directory
 
 ```python
 @abstractmethod
@@ -66,13 +67,13 @@ def get_dataset_options(self) -> general.DatasetOptions:
     e.g.:
     """
     return DatasetOptions(
-            data_origin="./../Data/xxx.csv",
-            drop_columns=["WeekoftheYear_cos"],
-            window_width=3,
-            label_width=1,
-            shift=1,
-            label_columns=["15720456723"],
-        )
+        data_origin="./../Data/xxx.csv",
+        drop_columns=["WeekoftheYear_cos"],
+        window_width=3,
+        label_width=1,
+        shift=1,
+        label_columns=["15720456723"],
+    )
 
 
 @abstractmethod
@@ -84,6 +85,7 @@ def compile_and_fit(self, model) -> History:
 
     - Please use verbose=0 in the fit function to declutter output.
     """
+
 
 @abstractmethod
 def get_train_settings(self) -> Dict[str, Any]:

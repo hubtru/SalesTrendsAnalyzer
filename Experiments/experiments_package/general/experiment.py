@@ -60,8 +60,7 @@ class Experiment(ABC):
         return models[model_name]
 
     @with_random_seed_reset
-    def _evaluate_single_model(self, model_name, performance: Performances):
-        model = self._get_model(model_name)
+    def _evaluate_single_model(self, model_name, model, performance: Performances):
         print("Fit model: ", model_name)
         history = self.compile_and_fit(model)
         print(" ... Done")
@@ -74,8 +73,8 @@ class Experiment(ABC):
         """Runs the experiment"""
         models = self.get_models()
         print(f"Run Experiment: {self.name}")
-        for name in models.keys():
-            self._evaluate_single_model(name, self.performance)
+        for name, model in models.items():
+            self._evaluate_single_model(name, model, self.performance)
 
         self.save_information(models)
 
@@ -98,8 +97,9 @@ class Experiment(ABC):
 
     def run_model(self, model_name: str):
         """Runs a single model"""
+        model = self._get_model(model_name)
         single_performance = Performances(self.data)
-        history = self._evaluate_single_model(model_name, single_performance)
+        history = self._evaluate_single_model(model_name, model, single_performance)
 
         single_performance.save(
             f"{self.path_to_output_folder}/{model_name}_{self.name}_losses.csv"

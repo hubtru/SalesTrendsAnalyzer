@@ -1,7 +1,9 @@
 datetime
 IPython
-matplotlib
-numpy
-pandas
+matplotlib~=3.6.3
+numpy~=1.23.5
+pandas~=1.5.3
 seaborn
-tensorflow
+tensorflow~=2.11.0
+holidays~=0.20
+typer~=0.9.0

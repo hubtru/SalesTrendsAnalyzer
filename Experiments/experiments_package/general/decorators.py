@@ -5,8 +5,8 @@ from tensorflow import random
 
 
 def with_random_seed_reset(func):
-    def inner():
+    def inner(*args, **kwargs):
         random.set_seed(0)
-        func()
+        return func(*args, **kwargs)
 
     return inner

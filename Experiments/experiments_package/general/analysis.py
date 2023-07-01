@@ -61,9 +61,9 @@ def create_results_table(
 
         performance_stats.at[name, ("Model", "Summary")] = _get_summary_as_string(model)
         performance_stats.at[name, ("Model", "Name")] = name
-        performance_stats.at[name, ("Model", "Size (MB)")] = get_model_size_byte(
+        performance_stats.at[name, ("Model", "Size (KB)")] = get_model_size_byte(
             model
-        ) / (1024 * 1024)
+        ) / 1024
         performance_stats.at[
             name, ("Model", "Trainable Params")
         ] = get_trainable_params(model)

@@ -2,8 +2,6 @@
 A helper class that tracks performances for experiments.
 """
 
-import os
-import tempfile
 import time
 from dataclasses import dataclass
 
@@ -35,16 +33,17 @@ class Performances:
     def register_performance(self, name, model):
         self.model_names.append(name)
 
-        ##Create the datasets before processing for more consistent timing
-        validation = self.window_generator.val
-        training = self.window_generator.train
-        testing = self.window_generator.test
-
         print("  ... measuring performance ...")
         before = time.process_time()
-        self.performances.valid[name] = model.evaluate(validation, verbose=0)
-        self.performances.test[name] = model.evaluate(testing, verbose=0)
-        self.performances.train[name] = model.evaluate(training, verbose=0)
+        self.performances.train[name] = model.evaluate(
+            self.window_generator.train, verbose=0
+        )
+        self.performances.valid[name] = model.evaluate(
+            self.window_generator.val, verbose=0
+        )
+        self.performances.test[name] = model.evaluate(
+            self.window_generator.test, verbose=0
+        )
         after = time.process_time()
 
         self.performances.timing[name] = (
@@ -85,8 +84,7 @@ class Performances:
         return stats.T
 
     def save(self, where):
-        stats = self.create_performance_data()
-        stats.to_csv(where)
+        self.create_performance_data().to_csv(where)
         print(" => Statistics Saved.")
 
     def save_plot(self, where):
@@ -129,13 +127,8 @@ class Performances:
 
 
 def get_model_size_byte(model):
-    _, keras_file = tempfile.mkstemp(".h5")
-    try:
-        tf.keras.models.save_model(model, keras_file, include_optimizer=False)
-    except NotImplementedError:  # IF model cannot be saved (e.g. basemodel)
-        return 0
 
-    return os.path.getsize(keras_file)
+    return _get_model_memory_usage(model)
 
 
 def get_trainable_params(model):
@@ -146,3 +139,42 @@ def get_non_trainable_params(model):
     return np.sum(
         [tf.size(w_matrix).numpy() for w_matrix in model.non_trainable_variables]
     )
+
+
+def _get_model_memory_usage(model):
+    """
+    Copyright: From comment on stack-overflow:
+    https://stackoverflow.com/questions/43137288/how-to-determine-needed-memory-of-keras-model
+    """
+
+    shapes_mem_count = 0
+    internal_model_mem_count = 0
+    for layer in model.layers:
+        layer_type = layer.__class__.__name__
+        if layer_type == "Model":
+            internal_model_mem_count += _get_model_memory_usage(layer)
+        single_layer_mem = 1
+        out_shape = layer.output_shape
+        if type(out_shape) is list:
+            out_shape = out_shape[0]
+        for s in out_shape:
+            if s is None:
+                continue
+            single_layer_mem *= s
+        shapes_mem_count += single_layer_mem
+
+    trainable_count = np.sum([tf.keras.backend.count_params(p) for p in model.trainable_weights])
+    non_trainable_count = np.sum(
+        [tf.keras.backend.count_params(p) for p in model.non_trainable_weights]
+    )
+
+    number_size = 4.0
+    if tf.keras.backend.floatx() == "float16":
+        number_size = 2.0
+    if tf.keras.backend.floatx() == "float64":
+        number_size = 8.0
+
+    total_memory = number_size * (
+        shapes_mem_count + trainable_count + non_trainable_count
+    )
+    return total_memory + internal_model_mem_count

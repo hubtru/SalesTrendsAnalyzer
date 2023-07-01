@@ -1,6 +1,7 @@
 import sys
 
 import typer
+
 from experiments_package.experiments import (
     Autoregressive,
     MultiOutputWithoutWeather,
@@ -69,8 +70,8 @@ def run_model(exp: str, model: str):
 
 @app.command("experiment")
 def run_experiment(
-    exp: str = None,
-    run_all: bool = None,
+        exp: str = None,
+        run_all: bool = None,
 ):
     """Run an experiment with all registered models."""
     if exp is None:

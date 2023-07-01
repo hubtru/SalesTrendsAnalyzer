@@ -11,6 +11,8 @@ class ResidualRNN(tf.keras.Model):
             label_width=label_width,
             num_labels=num_labels,
         )
+        self.build(input_shape=(None, window_width, feature_size))
+        self.model.build(input_shape=(None, window_width, feature_size))
 
     def call(self, inputs, *args, **kwargs):
         delta = self.model(inputs, *args, **kwargs)
