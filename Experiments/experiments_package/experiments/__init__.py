@@ -5,3 +5,4 @@ from .Autoregressive import Autoregressive
 from .MultiOutputWithoutWeather import MultiOutputWithoutWeather
 from .SingleOutputWithoutWeather import SingleOutputWithoutWeather
 from .MultiStepWithoutWeather import MultiStepWithoutWeather
+from .SingleOutputNoIds import SingleOutputNoIds

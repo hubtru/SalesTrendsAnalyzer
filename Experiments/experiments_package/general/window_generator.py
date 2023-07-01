@@ -1,3 +1,8 @@
+"""
+The wrapper for the dataset that we use. It generates windows
+of the timeseries data to learn from.
+"""
+
 import matplotlib.pyplot as plt
 import numpy as np
 import tensorflow as tf
@@ -158,19 +163,14 @@ class WindowGenerator:
             plt.xlabel("Time [day]")
 
     def make_dataset(self, data):
-        data = np.array(data, dtype=np.float32)
-        ds = tf.keras.utils.timeseries_dataset_from_array(
-            data=data,
+        return tf.keras.utils.timeseries_dataset_from_array(
+            data=np.array(data, dtype=np.float32),
             targets=None,
             sequence_length=self.total_window_size,
             sequence_stride=1,
             shuffle=True,
             batch_size=32,
-        )
-
-        ds = ds.map(self.split_window)
-
-        return ds
+        ).map(self.split_window)
 
     @property
     def train(self):

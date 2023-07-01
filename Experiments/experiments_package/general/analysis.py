@@ -1,3 +1,8 @@
+"""
+General functions for creating plots and
+statistics about experiments and model trainings.
+"""
+
 import matplotlib.pyplot as plt
 
 

@@ -39,6 +39,14 @@ python run <experiment> <model>
 python experiment SingleOutput
 ```
 
+Following things have to be considered while using:
+
+> Running a single model will generate outcomes for this model alone, not touching any other results of experiments.
+
+> Running a whole experiment generates outputs and results for that experiment.
+
+> To produce the "all_results"-csv-file for documentation one has to run the combine-results command. Repeat this step after each new experiment run in order to update.
+
 <br>
 
 # How to add a new experiment
@@ -46,7 +54,8 @@ python experiment SingleOutput
 -   Define your models in the **models** directory
 -   create a new experiment-file in **experiments**
 -   instantiate a subclass of **general.Experiment**
--   fill the abstract methods:
+-   fill the abstract methods below
+-   Register the experiment in "experiments" array of the "main.py" file in main directory
 
 ```python
 @abstractmethod

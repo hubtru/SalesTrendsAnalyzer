@@ -1,3 +1,7 @@
+"""
+A helper class that tracks performances for experiments.
+"""
+
 import os
 import tempfile
 import time

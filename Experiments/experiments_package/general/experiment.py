@@ -1,3 +1,10 @@
+"""
+The class that abstracts away one experiment.
+It has abstract-methods that have to be implemented for a
+certain experiment.
+"""
+
+
 from abc import ABC, abstractmethod
 from typing import Any, Dict
 

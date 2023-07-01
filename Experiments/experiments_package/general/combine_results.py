@@ -1,3 +1,8 @@
+"""
+Handles the combination of experiment results that
+were saved in the OUTPUT_PATH.
+"""
+
 import os
 import sys
 import datetime

@@ -1,3 +1,7 @@
+"""
+Methods that are used for handling and loading the dataset initially.
+"""
+
 import math
 
 import numpy as np

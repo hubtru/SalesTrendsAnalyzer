@@ -9,6 +9,7 @@ from experiments_package.experiments import (
     SingleOutputWithoutWeather,
     SingleStepMultiOutput,
     SingleStepSingleOutput,
+    SingleOutputNoIds,
 )
 from experiments_package.general import combine_results
 
@@ -23,6 +24,7 @@ experiments = [
     MultiOutputWithoutWeather("MultiOutput-NoWeather", OUTPUT_PATH),
     MultiStepWithoutWeather("MultiStep-NoWeather", OUTPUT_PATH),
     SingleOutputWithoutWeather("SingleOutput-NoWeather", OUTPUT_PATH),
+    SingleOutputNoIds("SingleOutput-NoIds", OUTPUT_PATH),
 ]
 
 

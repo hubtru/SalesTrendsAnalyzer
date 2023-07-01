@@ -1,3 +1,8 @@
+"""
+General options and constants that are used in and are important for
+several places.
+"""
+
 from dataclasses import dataclass
 from enum import Enum
 from typing import List, Optional
