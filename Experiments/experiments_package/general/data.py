@@ -105,13 +105,12 @@ def get_window_dataset(dataset_options: DatasetOptions) -> WindowGenerator:
 
 
 # import globally to save computation
-product_mapping = pd.read_csv("./../Data/products_map.csv")
 menu = pd.read_csv("./../Data/Sushi Menu.csv")
 
 
 def get_all_product_ids():
-    global product_mapping
-    return list(set(list(product_mapping["EAN"].astype(str))))
+    global menu
+    return list(set(list(menu["ID"].astype(str))))
 
 
 def get_no_sushi_in_product(p_id: str):
@@ -119,10 +118,12 @@ def get_no_sushi_in_product(p_id: str):
     Gets the productId of a sushi menu item (e.g. 4260705920294) and returns the Number of individual
     sushi pieces are in this menu item.
     """
-    global product_mapping
     global menu
-    return 10
 
-    p_num = product_mapping[product_mapping["EAN"].astype(str) == p_id]['Nummer']
+    sushi_count = menu[menu['ID'].astype(str) == p_id]["Count"].astype(int).reset_index(drop=True)
 
-    return menu[menu['EAN'].astype(str) == p_num]["Count"].astype(int)
+    if len(sushi_count) == 0:
+        raise AttributeError(f"Product number {p_id} not found in menu")
+    elif len(sushi_count) > 1:
+        raise AttributeError(f"Product number {p_id} found several times in menu (but has to be unique)")
+    return sushi_count[0]

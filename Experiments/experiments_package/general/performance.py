@@ -6,9 +6,9 @@ import time
 from dataclasses import dataclass
 
 import matplotlib.pyplot as plt
-import tensorflow as tf
 import numpy as np
 import pandas as pd
+import tensorflow as tf
 
 from .data import WindowGenerator
 
@@ -47,7 +47,7 @@ class Performances:
         after = time.process_time()
 
         self.performances.timing[name] = (
-            (after - before) * 1000 / self.window_generator.total_samples
+                (after - before) * 1000 / self.window_generator.total_samples
         )
 
         self.performances.metrics_names[name] = model.metrics_names
@@ -127,7 +127,6 @@ class Performances:
 
 
 def get_model_size_byte(model):
-
     return _get_model_memory_usage(model)
 
 
@@ -175,6 +174,6 @@ def _get_model_memory_usage(model):
         number_size = 8.0
 
     total_memory = number_size * (
-        shapes_mem_count + trainable_count + non_trainable_count
+            shapes_mem_count + trainable_count + non_trainable_count
     )
     return total_memory + internal_model_mem_count

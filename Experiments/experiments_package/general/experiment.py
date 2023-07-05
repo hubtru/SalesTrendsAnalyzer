@@ -94,15 +94,18 @@ class Experiment(ABC):
         single_performance = Performances(self.data)
         history = self._evaluate_single_model(model_name, model, single_performance)
 
-        single_performance.save(
-            f"{self.path_to_output_folder}/{model_name}_{self.name}_losses.csv"
-        )
-        single_performance.save_plot(
-            f"{self.path_to_output_folder}/{model_name}_{self.name}_plot.jpg"
-        )
-        save_history_plot(
-            history,
-            where=f"{self.path_to_output_folder}/{model_name}_{self.name}_history.jpg",
-        )
-        save_predictions_plot(model, self.data,
-                              where=f"{self.path_to_output_folder}/{model_name}_{self.name}_predictions.jpg", )
+        file_prefix = f"{self.path_to_output_folder}/{model_name}_{self.name}"
+
+        single_performance.save(f"{file_prefix}_losses.csv")
+        save_history_plot(history, where=f"{file_prefix}_history.jpg")
+        save_predictions_plot(model, self.data, where=f"{file_prefix}_predictions.jpg")
+
+        create_results_table(
+            performance=single_performance,
+            experiment_name=self.name,
+            window_generator=self.data,
+            data_origin=self.dataset_options.data_origin,
+            train_settings=self.get_train_settings(),
+            models={model_name: model},
+        ).to_csv(f"{file_prefix}_results.csv")
+        print(" => Experiment Info Saved.")

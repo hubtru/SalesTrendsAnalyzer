@@ -60,31 +60,29 @@ def show_models(exp: str):
 
 
 @app.command("run")
-def run_model(exp: str, model: str):
-    """Run a perticular model of an experiment"""
+def run_model(exp: str, model: str = None):
+    """Run an experiment with all registered models.
+     -- model: only choose one model to run
+    """
+
     experiment = get_experiment(exp)
+    if model is None:
+        typer.echo(f"Run {experiment.name}")
+        experiment.run()
+
     models = experiment.get_models().keys()
-    if not model in models:
+    if model not in models:
         typer.echo(f"Model not existent, allowed Values: {str(models)}")
 
     experiment.run_model(model)
 
 
-@app.command("experiment")
+@app.command("run-all")
 def run_experiment(
-        exp: str = None,
-        run_all: bool = None,
 ):
-    """Run an experiment with all registered models."""
-    if exp is None:
-        run_all = True
-    if run_all:
-        typer.echo("Run all experiments")
-        for experiment in experiments:
-            experiment.run()
-    else:
-        experiment = get_experiment(exp)
-        typer.echo(f"Run {experiment.name}")
+    """Run all experiments."""
+    typer.echo("Run all experiments")
+    for experiment in experiments:
         experiment.run()
 
 
