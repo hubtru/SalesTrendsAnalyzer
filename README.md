@@ -170,5 +170,5 @@ Contributions to this project are welcome. Please open an issue or pull request 
   - not use early stopping as this is not working well with shuffled batches
   - specify shapes and some „Flatten“-Layers in the model to better control what is happening.
   - removed some of the features that were like an „index“ of the data, to prevent overfitting
-  - reduce the window-width as overfitting will happen always when we have more input features then training samples
+  - reduce the window-width (to 3) as overfitting will happen always when we have more input features then training samples
   - Reduce the „label“ width, as if it is bigger then „shift“, values can just be passed through from the input
