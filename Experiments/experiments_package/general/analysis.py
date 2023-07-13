@@ -131,7 +131,11 @@ def get_model_predictions_sequentially_with_time(model, window_generator: Window
 
     label_index = window_generator.label_columns_indices[label]
 
-    time = window_generator.time_stamps[window_generator.total_window_size - window_generator.label_width:]
+    # see diagram above on where time starts and ends for the labels.
+    # end of the time has to be considered as only the first of the results will get used
+    last_time_index = - window_generator.label_width + 1
+    time = window_generator.time_stamps[
+           window_generator.total_window_size - window_generator.label_width: last_time_index if last_time_index != 0 else None]
     # Only pick the first of the labels predicted
     predictions = denormalize_list(model(inputs)[:, 0, label_index],
                                    window_generator.normalization_params,

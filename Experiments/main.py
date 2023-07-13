@@ -3,7 +3,6 @@ import sys
 import typer
 
 from experiments_package.experiments import (
-    Autoregressive,
     MultiOutputWithoutWeather,
     MultiStep,
     MultiStepWithoutWeather,
@@ -22,7 +21,7 @@ experiments = [
     SingleStepSingleOutput("SingleOutput", OUTPUT_PATH),
     SingleStepMultiOutput("MultiOutput", OUTPUT_PATH),
     MultiStep("MultiStep", OUTPUT_PATH),
-    Autoregressive("Autoregressive", OUTPUT_PATH),
+    # Autoregressive("Autoregressive", OUTPUT_PATH),
     MultiOutputWithoutWeather("MultiOutput-NoWeather", OUTPUT_PATH),
     MultiStepWithoutWeather("MultiStep-NoWeather", OUTPUT_PATH),
     SingleOutputWithoutWeather("SingleOutput-NoWeather", OUTPUT_PATH),
@@ -69,12 +68,13 @@ def run_model(exp: str, model: str = None):
     if model is None:
         typer.echo(f"Run {experiment.name}")
         experiment.run()
+    else:
+        models = experiment.get_models().keys()
+        if model not in models:
+            typer.echo(f"Model not existent, allowed Values: {str(models)}")
+            sys.exit(-1)
 
-    models = experiment.get_models().keys()
-    if model not in models:
-        typer.echo(f"Model not existent, allowed Values: {str(models)}")
-
-    experiment.run_model(model)
+        experiment.run_model(model)
 
 
 @app.command("run-all")

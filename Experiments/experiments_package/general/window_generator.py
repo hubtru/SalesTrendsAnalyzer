@@ -8,7 +8,7 @@ import numpy as np
 import pandas as pd
 import tensorflow as tf
 
-from .config import ProductIds
+from .config import ProductIds, denormalize_list
 from .config import denormalize
 
 
@@ -226,4 +226,6 @@ class WindowGenerator:
 
     def get_feature_sequentially_with_time(self, label):
         data = pd.concat([self.train_df, self.val_df, self.test_df])
-        return self.time_stamps, denormalize(data, self.normalization_params)[label]
+        labels = denormalize_list(data[label], self.normalization_params, label)
+        assert len(labels) == len(self.time_stamps)
+        return self.time_stamps, labels

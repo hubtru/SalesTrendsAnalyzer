@@ -24,6 +24,9 @@ class Experiment(ABC):
         self.name = name
         self.path_to_output_folder = path_to_output_folder
 
+    def __repr__(self):
+        return f'Experiment {self.name}'
+
     @abstractmethod
     def get_dataset_options(self) -> DatasetOptions:
         """Return the options of for the dataset"""

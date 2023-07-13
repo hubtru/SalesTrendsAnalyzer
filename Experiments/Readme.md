@@ -120,3 +120,17 @@ class DatasetOptions:
     drop_columns: List[str]
     label_columns: Optional[List[str]] = None
 ```
+
+## How are the weekly sushi savings calculated?
+
+- Take all product Ids which are in the values to predict
+- Slide input window over whole dataset, from every output, take the chronologically first prediction and compare it
+  with the real value of that day.
+- This means that analysis range depends on the shift value used in the window generator.
+- Then for every product type it is looked up how much sushi are in that package and the values are scaled to use total
+  sushi's wasted/saved
+- Every Day gets rounded to the closest integer as only full packages can be produced
+- wasted sushi is the number of sushi that was produced too much compared to actual demand
+- not_enough sushi is the number of sushi that was produced less than the amount actually sold on that day
+- all the values will get add up for all the products predicted, then they will get divided by the number of days (times
+  the number of products) to get the average per day for all products and all times

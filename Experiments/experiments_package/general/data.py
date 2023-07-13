@@ -59,6 +59,7 @@ def _get_dataset(data_origin):
     df_pivot = _load_data(data_origin)
     date_time = pd.to_datetime(df_pivot.pop("Date"), format="%Y-%m-%d")
     data = _add_fourier_features(df_pivot)
+    assert len(date_time) == len(data)
     return data, date_time
 
 
@@ -110,7 +111,7 @@ menu = pd.read_csv("./../Data/Sushi Menu.csv")
 
 def get_all_product_ids():
     global menu
-    return list(set(list(menu["ID"].astype(str))))
+    return list(set(list(menu["Nummer"].astype(str))))
 
 
 def get_no_sushi_in_product(p_id: str):
@@ -120,7 +121,7 @@ def get_no_sushi_in_product(p_id: str):
     """
     global menu
 
-    sushi_count = menu[menu['ID'].astype(str) == p_id]["Count"].astype(int).reset_index(drop=True)
+    sushi_count = menu[menu['Nummer'].astype(str) == p_id]["Count"].astype(int).reset_index(drop=True)
 
     if len(sushi_count) == 0:
         raise AttributeError(f"Product number {p_id} not found in menu")
