@@ -47,7 +47,7 @@ Following things have to be considered while using:
 
 > To produce the "all_results"-csv-file for documentation one has to run the combine-results command. Repeat this step
 > after each new experiment or model run in order to update.
->
+> !! Only outputs of running whole experiments will be included in the all-results-file
 >
 > If there are several data-points for the same experiment and model, they will all be added to the final result data.
 

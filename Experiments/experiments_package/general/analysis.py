@@ -20,6 +20,7 @@ from .window_generator import WindowGenerator
 
 
 def save_history_plot(history, where):
+    plt.clf()
     plt.plot(history.history["loss"], label="Train")
     plt.plot(history.history["val_loss"], label="Validation")
     plt.title("Loss Development")
@@ -143,18 +144,18 @@ def get_model_predictions_sequentially_with_time(model, window_generator: Window
     return time, predictions
 
 
-def save_predictions_plot(model, window_generator: WindowGenerator, where: str):
-    label_columns = window_generator.label_columns
-
-    if label_columns is None:
+def save_predictions_plot(model, window_generator: WindowGenerator, where: str, columns=None):
+    if columns is None:
         # If all columns are predicted, only this sushi type is shown
-        label_columns = [ProductIds.BENS_LUNCHTIME.value]
+        columns = [ProductIds.BENS_LUNCHTIME.value]
+    else:
+        # Only show the labels that are available in the output
+        if window_generator.label_columns is not None:
+            columns = list(set(columns) & set(window_generator.label_columns))
 
-    num_plots = len(label_columns)
-    fig = plt.figure(figsize=(16 * num_plots, 4))
-
-    for i, label in enumerate(label_columns):
-        ax = fig.add_subplot(num_plots, 1, i + 1)
+    for i, label in enumerate(columns):
+        fig = plt.figure(figsize=(16, 4))
+        ax = fig.add_subplot(1, 1, 1)
         ax.set_title(f"Predictions and Labels for >>{label}<<")
 
         x, y = window_generator.get_feature_sequentially_with_time(label)
@@ -182,8 +183,12 @@ def save_predictions_plot(model, window_generator: WindowGenerator, where: str):
                    label='end of validation data')
         ax.legend()
 
-    fig.savefig(where)
-    print(" => Saved Predictions Plot")
+        image_name_parts = where.split(".")
+        image_name_parts.insert(-1, label)
+        fig.savefig(".".join(image_name_parts))
+
+        print(f" => Saved Predictions Plot {label}")
+    plt.clf()
 
 
 def _get_summary_as_string(model) -> str:

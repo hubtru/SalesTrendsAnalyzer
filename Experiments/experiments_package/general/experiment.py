@@ -4,11 +4,14 @@ It has abstract-methods that have to be implemented for a
 certain experiment.
 """
 
+import os
 from abc import ABC, abstractmethod
 from typing import Any, Dict
 
+import matplotlib.pyplot as plt
+
 from .analysis import create_results_table, save_history_plot, save_predictions_plot
-from .config import DatasetOptions
+from .config import DatasetOptions, ALL_USED_PRODUCT_IDS
 from .data import get_window_dataset
 from .decorators import with_random_seed_reset
 from .performance import Performances
@@ -91,17 +94,25 @@ class Experiment(ABC):
         ).to_csv(f"{self.path_to_output_folder}/{self.name}_results.csv")
         print(" => Experiment Info Saved.")
 
-    def run_model(self, model_name: str):
+    def run_model(self, model_name: str, output_all_label_images=False):
         """Runs a single model"""
         model = self._get_model(model_name)
         single_performance = Performances(self.data)
         history = self._evaluate_single_model(model_name, model, single_performance)
 
-        file_prefix = f"{self.path_to_output_folder}/{model_name}_{self.name}"
+        file_location = f"{self.path_to_output_folder}/{self.name}/{model_name}"
 
-        single_performance.save(f"{file_prefix}_losses.csv")
-        save_history_plot(history, where=f"{file_prefix}_history.jpg")
-        save_predictions_plot(model, self.data, where=f"{file_prefix}_predictions.jpg")
+        if not os.path.exists(file_location):
+            os.makedirs(file_location)
+
+        single_performance.save(f"{file_location}/losses.csv")
+        save_history_plot(history, where=f"{file_location}/history.jpg")
+        if output_all_label_images:
+            save_predictions_plot(model, self.data, where=f"{file_location}/predictions.jpg",
+                                  columns=ALL_USED_PRODUCT_IDS)
+        else:
+            save_predictions_plot(model, self.data, where=f"{file_location}/predictions.jpg",
+                                  columns=self.data.label_columns)
 
         create_results_table(
             performance=single_performance,
@@ -110,5 +121,6 @@ class Experiment(ABC):
             data_origin=self.dataset_options.data_origin,
             train_settings=self.get_train_settings(),
             models={model_name: model},
-        ).to_csv(f"{file_prefix}_results.csv")
+        ).to_csv(f"{file_location}/results.csv")
         print(" => Experiment Info Saved.")
+        plt.clf()
