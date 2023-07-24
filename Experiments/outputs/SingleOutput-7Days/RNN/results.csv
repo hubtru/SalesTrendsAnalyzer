@@ -1,0 +1,21 @@
+,Model,loss,loss,loss,mean_absolute_error,mean_absolute_error,mean_absolute_error,Experiment,Experiment,Experiment,Experiment,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Timing,Model,Model,Model,Model,Performance,Performance
+,Name,Training,Validation,Test,Training,Validation,Test,Name,Data Origin,Used Data Columns,Data Instances (train/valid/test),Batch Size,Epochs,Learning Rate,Optimizer,Shuffled Batches,Early Stopping,Window Width,Label Width,Shift,Predicted Labels,Latency (ms/observation),Summary,Size (KB),Trainable Params,Non-Trainable Params,Avg. Sushi wasted /day,Avg. sushi not enough /day
+0,RNN,0.565454363822937,0.4456999897956848,0.6510739922523499,0.637990415096283,0.5661769509315491,0.6843485236167908,SingleOutput-7Days,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max', 'temperature_2m_min', 'temperature_2m_mean', 'apparent_temperature_max', 'apparent_temperature_min', 'apparent_temperature_mean', 'precipitation_sum', 'windgusts_10m_max', 'windspeed_10m_max', 'shortwave_radiation_sum', 'precipitation_hours', 'evapotranspiration_res', 'IsSnowfall', 'weather_clouds developing', 'weather_clouds dissolving', 'weather_no clouds developing', 'weather_precipitation', 'weather_unchanged sky state', 'isWeekend', 'isWeekStart', 'isWeekEnd', 'isMonthStart', 'isMonthEnd', 'isHoliday', '4260705920294', 'total_quantity_day', 'DayoftheMonth_cos', 'DayoftheMonth_sin', 'WeekoftheMonth_cos', 'WeekoftheMonth_sin', 'DayoftheWeek_cos', 'DayoftheWeek_sin']","(183,)/(47,)/(21,)",32,100,0.001,Adam,True,False,7,1,1,4260705920294,1.3269243027895004,"Model: ""sequential_225""
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ lstm_61 (LSTM)              (None, 7, 16)             3136      
+                                                                 
+ flatten_183 (Flatten)       (None, 112)               0         
+                                                                 
+ dropout_183 (Dropout)       (None, 112)               0         
+                                                                 
+ dense_399 (Dense)           (None, 1)                 113       
+                                                                 
+ reshape_225 (Reshape)       (None, 1, 1)              0         
+                                                                 
+=================================================================
+Total params: 3,249
+Trainable params: 3,249
+Non-trainable params: 0
+_________________________________________________________________",14.01171875,3249.0,0.0,12.0,11.0

@@ -1,0 +1,25 @@
+,Model,loss,loss,loss,mean_absolute_error,mean_absolute_error,mean_absolute_error,Experiment,Experiment,Experiment,Experiment,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Timing,Model,Model,Model,Model,Performance,Performance
+,Name,Training,Validation,Test,Training,Validation,Test,Name,Data Origin,Used Data Columns,Data Instances (train/valid/test),Batch Size,Epochs,Learning Rate,Optimizer,Shuffled Batches,Early Stopping,Window Width,Label Width,Shift,Predicted Labels,Latency (ms/observation),Summary,Size (KB),Trainable Params,Non-Trainable Params,Avg. Sushi wasted /day,Avg. sushi not enough /day
+0,Multi Step Dense,0.947806715965271,0.5987082123756409,0.8098711967468262,0.8118775486946106,0.6329079270362854,0.7463552951812744,SingleOutput-7Days,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['temperature_2m_max', 'temperature_2m_min', 'temperature_2m_mean', 'apparent_temperature_max', 'apparent_temperature_min', 'apparent_temperature_mean', 'precipitation_sum', 'windgusts_10m_max', 'windspeed_10m_max', 'shortwave_radiation_sum', 'precipitation_hours', 'evapotranspiration_res', 'IsSnowfall', 'weather_clouds developing', 'weather_clouds dissolving', 'weather_no clouds developing', 'weather_precipitation', 'weather_unchanged sky state', 'isWeekend', 'isWeekStart', 'isWeekEnd', 'isMonthStart', 'isMonthEnd', 'isHoliday', '4260705920294', 'total_quantity_day', 'DayoftheMonth_cos', 'DayoftheMonth_sin', 'WeekoftheMonth_cos', 'WeekoftheMonth_sin', 'DayoftheWeek_cos', 'DayoftheWeek_sin']","(183,)/(47,)/(21,)",32,100,0.001,Adam,True,False,7,1,1,4260705920294,1.316119521911298,"Model: ""sequential_213""
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ flatten_171 (Flatten)       (None, 224)               0         
+                                                                 
+ dense_374 (Dense)           (None, 32)                7200      
+                                                                 
+ dropout_170 (Dropout)       (None, 32)                0         
+                                                                 
+ dense_375 (Dense)           (None, 32)                1056      
+                                                                 
+ dropout_171 (Dropout)       (None, 32)                0         
+                                                                 
+ dense_376 (Dense)           (None, 1)                 33        
+                                                                 
+ reshape_213 (Reshape)       (None, 1, 1)              0         
+                                                                 
+=================================================================
+Total params: 8,289
+Trainable params: 8,289
+Non-trainable params: 0
+_________________________________________________________________",33.76171875,8289.0,0.0,17.0,11.0

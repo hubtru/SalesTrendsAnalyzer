@@ -1,0 +1,17 @@
+,Model,loss,loss,loss,mean_absolute_error,mean_absolute_error,mean_absolute_error,Experiment,Experiment,Experiment,Experiment,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Training Settings,Timing,Model,Model,Model,Model,Performance,Performance
+,Name,Training,Validation,Test,Training,Validation,Test,Name,Data Origin,Used Data Columns,Data Instances (train/valid/test),Batch Size,Epochs,Learning Rate,Optimizer,Shuffled Batches,Early Stopping,Window Width,Label Width,Shift,Predicted Labels,Latency (ms/observation),Summary,Size (KB),Trainable Params,Non-Trainable Params,Avg. Sushi wasted /day,Avg. sushi not enough /day
+0,Mutli Linear,0.4747452437877655,2.81982421875,4.305004596710205,0.398760050535202,1.0037084817886353,1.2744100093841553,MultiStep-NoWeather,./../Data/merged_cleaned_FE_imputed(v)_w.csv,"['isWeekend', 'isWeekStart', 'isWeekEnd', 'isMonthStart', 'isMonthEnd', 'isHoliday', '4260705920003', '4260705920010', '4260705920027', '4260705920034', '4260705920041', '4260705920058', '4260705920065', '4260705920072', '4260705920089', '4260705920096', '4260705920102', '4260705920119', '4260705920126', '4260705920133', '4260705920140', '4260705920157', '4260705920164', '4260705920171', '4260705920188', '4260705920195', '4260705920201', '4260705920218', '4260705920225', '4260705920232', '4260705920249', '4260705920256', '4260705920263', '4260705920270', '4260705920287', '4260705920294', '4260705920300', '4260705920317', '4260705920324', '4260705920331', '4260705920355', '4260705920362', '4260705920393', '4260705920409', '4260705920416', '4260705920423', '4260705920430', '4260705920461', '4260705920478', '4260705920492', '4260705920508', '4260705920515', '4260705920522', '4260705920539', '4260705920546', '4260705920553', '4260705920560', '4260705920577', '4260705920584', '4260705920591', '4260705920607', '4260705920638', 'total_quantity_day', 'DayoftheMonth_cos', 'DayoftheMonth_sin', 'WeekoftheMonth_cos', 'WeekoftheMonth_sin', 'DayoftheWeek_cos', 'DayoftheWeek_sin']","(176,)/(40,)/(14,)",32,100,0.001,Adam,True,False,10,5,5,All,2.4476000000000253,"Model: ""sequential_115""
+_________________________________________________________________
+ Layer (type)                Output Shape              Param #   
+=================================================================
+ lambda_25 (Lambda)          (None, 1, 69)             0         
+                                                                 
+ dense_183 (Dense)           (None, 1, 345)            24150     
+                                                                 
+ reshape_115 (Reshape)       (None, 5, 69)             0         
+                                                                 
+=================================================================
+Total params: 24,150
+Trainable params: 24,150
+Non-trainable params: 0
+_________________________________________________________________",97.30078125,24150.0,0.0,1.0,1.0
