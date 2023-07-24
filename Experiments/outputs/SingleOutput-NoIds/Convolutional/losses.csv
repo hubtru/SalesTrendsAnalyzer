@@ -1,0 +1,3 @@
+,loss,loss,loss,mean_absolute_error,mean_absolute_error,mean_absolute_error
+,Training,Validation,Test,Training,Validation,Test
+Convolutional,0.5204840898513794,1.0225403308868408,0.8869710564613342,0.5962740182876587,0.7647404670715332,0.8058711886405945

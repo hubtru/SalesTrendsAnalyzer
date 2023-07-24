@@ -1,0 +1,3 @@
+,loss,loss,loss,mean_absolute_error,mean_absolute_error,mean_absolute_error
+,Training,Validation,Test,Training,Validation,Test
+RNN,0.7464654445648193,0.7193202376365662,1.0461187362670898,0.721010684967041,0.6348075270652771,0.8226513862609863

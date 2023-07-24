@@ -1,0 +1,3 @@
+,loss,loss,loss,mean_absolute_error,mean_absolute_error,mean_absolute_error
+,Training,Validation,Test,Training,Validation,Test
+Multi LSTM,0.6849476099014282,2.4949822425842285,3.400830030441284,0.47652560472488403,0.8484746813774109,0.988844096660614

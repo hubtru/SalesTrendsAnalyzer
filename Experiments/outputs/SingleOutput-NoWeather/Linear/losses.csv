@@ -1,0 +1,3 @@
+,loss,loss,loss,mean_absolute_error,mean_absolute_error,mean_absolute_error
+,Training,Validation,Test,Training,Validation,Test
+Linear,0.3428955376148224,3.2880425453186035,8.433774948120117,0.43688327074050903,1.3472288846969604,2.3370392322540283

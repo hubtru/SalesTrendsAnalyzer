@@ -1,0 +1,3 @@
+,loss,loss,loss,mean_absolute_error,mean_absolute_error,mean_absolute_error
+,Training,Validation,Test,Training,Validation,Test
+RepeatBaseline,1.502617597579956,3.763878345489502,3.1058266162872314,0.5408514142036438,0.7285242676734924,0.671818196773529

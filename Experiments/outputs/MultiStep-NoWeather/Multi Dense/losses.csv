@@ -1,0 +1,3 @@
+,loss,loss,loss,mean_absolute_error,mean_absolute_error,mean_absolute_error
+,Training,Validation,Test,Training,Validation,Test
+Multi Dense,0.4484727084636688,2.437373399734497,3.736020803451538,0.36640647053718567,0.843254566192627,1.0157995223999023

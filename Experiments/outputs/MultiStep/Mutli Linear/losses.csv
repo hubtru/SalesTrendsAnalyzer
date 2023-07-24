@@ -1,0 +1,3 @@
+,loss,loss,loss,mean_absolute_error,mean_absolute_error,mean_absolute_error
+,Training,Validation,Test,Training,Validation,Test
+Mutli Linear,0.44199055433273315,2.7753467559814453,3.5989036560058594,0.4024336338043213,1.0672862529754639,1.207049012184143
