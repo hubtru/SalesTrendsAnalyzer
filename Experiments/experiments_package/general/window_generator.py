@@ -1,4 +1,13 @@
 """
+This file is originally from https://github.com/anencore94/SlidingWindowGenerator
+Find the License attached in the directory.
+
+!!!
+The code was changed and modified by https://github.com/XfensorX and https://github.com/hubtru
+!!!
+"""
+
+"""
 The wrapper for the dataset that we use. It generates windows
 of the timeseries data to learn from.
 """
