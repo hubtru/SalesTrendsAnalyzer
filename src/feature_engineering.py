@@ -1,79 +1,115 @@
-import pandas as pd 
-from datetime import date
-import holidays
+"""Feature engineering utilities for the cleaned sales dataset."""
+
+from __future__ import annotations
+
 from itertools import product
-import calendar
+from pathlib import Path
+from typing import Iterable
 
-def impute(df):
-    df['Date'] = pd.to_datetime(df['Date'])
-    df1 = pd.DataFrame(columns=['Date', 'StoreID', 'ProductID'])
-    df1['Date'] = pd.date_range(start=df['Date'].min(), end=df['Date'].max())
-    
-    dates = df1['Date'].unique()
-    stores = df['StoreID'].unique()
-    products = df['ProductID'].unique()
-    all = list(product(dates, stores, products))
-    
-    df2 = pd.DataFrame(all, columns=['Date', 'StoreID', 'ProductID'])
-    
-    df3 = pd.merge(df2, df[['Date', 'StoreID', 'ProductID', 'Quantity', 'Price']], how='left', on=['Date', 'StoreID', 'ProductID'])
-    df3['Quantity'] = df3['Quantity'].fillna(0)
-    general_avg = df3['Price'].mean()
-    df3['Price_store_avg'] = df3.groupby(['StoreID', 'ProductID'])['Price'].transform(lambda x: x.fillna(x.mean()))
-    df3['Price_product_avg'] = df3['Price_store_avg'].fillna(df3.groupby(['ProductID'])['Price'].transform(lambda x: x.fillna(x.mean())))
-    df3['Price_imputed'] = df3['Price_product_avg'].fillna(general_avg)
-    df3 = df3.drop(['Price', 'Price_store_avg', 'Price_product_avg'], axis=1)
-
-    
-    return date_features(df3)
+import holidays
+import pandas as pd
 
 
-def date_features(df):
-    df['Date'] = pd.to_datetime(df['Date'])
-    df['Year'] = df['Date'].dt.strftime('%Y').astype(int)
-    df['Month'] = df['Date'].dt.strftime('%m').astype(int)
-    df['DayoftheMonth'] = df['Date'].dt.strftime('%d').astype(int)
+FEATURE_OUTPUT_PATH = Path("Data/merged_cleaned_FE_imputed(v).csv")
 
-    df['WeekoftheMonth'] = df['DayoftheMonth'].apply(lambda x: 4 if (int(x) - 1) // 7 + 1 == 5 else (int(x) - 1) // 7 + 1).astype(int)
-    df['DayoftheWeek'] = df['DayoftheMonth'].apply(lambda x: 7 if int(x) % 7 == 0 else 7 + (int(x) - 28) if int(x) > 28 else int(x) % 7).astype(int)
 
-    df['WeekoftheYear'] = df['Date'].dt.strftime('%U').astype(int)
-    df['DayoftheYear'] = df['Date'].dt.strftime('%j').astype(int)
+def _ensure_columns(df: pd.DataFrame, required_columns: Iterable[str]) -> None:
+    missing = [column for column in required_columns if column not in df.columns]
+    if missing:
+        raise ValueError(f"Missing required columns: {', '.join(missing)}")
 
-    df['DayName'] = df['Date'].dt.day_name()
-    df['isWeekend'] = df['DayName'].isin(['Saturday', 'Sunday'])
 
-    df['isWeekStart'] = df['DayoftheWeek'].apply(lambda x: True if int(x) == 1 else False)
-    df['isWeekEnd'] = df['DayoftheWeek'].apply(lambda x: True if int(x) == 7 else False)
-    df['isMonthStart'] = df['DayoftheMonth'].apply(lambda x: True if int(x) == 1 else False)
-    df['isMonthEnd'] = df['Date'].apply(lambda x: True if x.day == calendar.monthrange(x.year, x.month)[1] else False)
+def impute(df: pd.DataFrame) -> pd.DataFrame:
+    """Create a complete date-store-product grid and impute missing prices."""
 
-    def get_season(date):
-        year = date.year
-        if date.month >= 3 and date.month <= 5:
-            return f'Spring'
-        elif date.month >= 6 and date.month <= 8:
-            return f'Summer'
-        elif date.month >= 9 and date.month <= 11:
-            return f'Autumn'
-        else:
-            return f'Winter'
-        
-    df['Season'] = df['Date'].apply(get_season)
+    required_columns = ("Date", "StoreID", "ProductID", "Quantity", "Price")
+    _ensure_columns(df, required_columns)
 
-    df = pd.get_dummies(df, columns=['Season'], prefix = ['Season'])
+    df = df.copy()
+    df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+    df = df.dropna(subset=["Date", "StoreID", "ProductID"])
 
-    de_holidays = holidays.Germany(years=[2020, 2021, 2022, 2023])
-    df['isHoliday'] = [True if x in de_holidays else False for x in df['Date']]
+    if df.empty:
+        raise ValueError("No records available for feature engineering.")
 
-    df = df.drop(['DayName'], axis=1)
+    full_index = product(
+        pd.date_range(start=df["Date"].min(), end=df["Date"].max()),
+        sorted(df["StoreID"].unique()),
+        sorted(df["ProductID"].unique()),
+    )
+
+    df_full = pd.DataFrame(full_index, columns=["Date", "StoreID", "ProductID"])
+    df_merged = pd.merge(
+        df_full,
+        df[["Date", "StoreID", "ProductID", "Quantity", "Price"]],
+        how="left",
+        on=["Date", "StoreID", "ProductID"],
+    )
+
+    df_merged["Quantity"] = pd.to_numeric(
+        df_merged["Quantity"], errors="coerce"
+    ).fillna(0)
+    df_merged["Quantity"] = df_merged["Quantity"].round().astype("Int64")
+    general_avg = df_merged["Price"].dropna().mean()
+    if pd.isna(general_avg):
+        general_avg = 0.0
+
+    df_merged["Price_store_avg"] = df_merged.groupby(["StoreID", "ProductID"])[
+        "Price"
+    ].transform(lambda x: x.fillna(x.mean()))
+    df_merged["Price_product_avg"] = df_merged["Price_store_avg"].fillna(
+        df_merged.groupby(["ProductID"])["Price"].transform(lambda x: x.fillna(x.mean()))
+    )
+    df_merged["Price_imputed"] = df_merged["Price_product_avg"].fillna(general_avg)
+    df_merged = df_merged.drop(["Price", "Price_store_avg", "Price_product_avg"], axis=1)
+
+    return date_features(df_merged)
+
+
+def date_features(df: pd.DataFrame) -> pd.DataFrame:
+    """Derive calendar-based features for downstream models."""
+
+    df = df.copy()
+    df["Date"] = pd.to_datetime(df["Date"], errors="coerce")
+    df = df.dropna(subset=["Date"])
+
+    if df.empty:
+        return df
+
+    df["Year"] = df["Date"].dt.year
+    df["Month"] = df["Date"].dt.month
+    df["DayoftheMonth"] = df["Date"].dt.day
+    df["WeekoftheMonth"] = ((df["DayoftheMonth"] - 1) // 7 + 1).astype(int)
+    df["DayoftheWeek"] = df["Date"].dt.isoweekday()
+    df["WeekoftheYear"] = df["Date"].dt.isocalendar().week.astype(int)
+    df["DayoftheYear"] = df["Date"].dt.dayofyear
+
+    df["isWeekend"] = df["DayoftheWeek"].isin({6, 7})
+    df["isWeekStart"] = df["DayoftheWeek"] == 1
+    df["isWeekEnd"] = df["DayoftheWeek"] == 7
+    df["isMonthStart"] = df["Date"].dt.is_month_start
+    df["isMonthEnd"] = df["Date"].dt.is_month_end
+
+    def get_season(value: pd.Timestamp) -> str:
+        month = value.month
+        if 3 <= month <= 5:
+            return "Spring"
+        if 6 <= month <= 8:
+            return "Summer"
+        if 9 <= month <= 11:
+            return "Autumn"
+        return "Winter"
+
+    df["Season"] = df["Date"].apply(get_season)
+    df = pd.get_dummies(df, columns=["Season"], prefix="Season")
+
+    germany_holidays = holidays.country_holidays("DE", years=range(2020, 2024))
+    df["isHoliday"] = df["Date"].isin(germany_holidays)
 
     return df
 
 
-
-
-if __name__ == '__main__':
-    df = pd.read_csv('Data/merged_cleaned.csv')
+if __name__ == "__main__":
+    df = pd.read_csv("Data/merged_cleaned.csv")
     df = impute(df)
-    df.to_csv('Data/merged_cleaned_FE_imputed(v).csv', index=False)
+    df.to_csv(FEATURE_OUTPUT_PATH, index=False)
