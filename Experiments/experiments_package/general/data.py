@@ -45,14 +45,20 @@ def _add_fourier_features(
         }
     data_copy = data.copy()
 
+    columns_to_drop = []
     for column, period in features_to_period.items():
-        data_copy[f"{column}_cos"] = np.cos(2 * np.pi * data_copy["Month"] / period)
-        data_copy[f"{column}_sin"] = np.sin(2 * np.pi * data_copy["Month"] / period)
+        if column not in data_copy.columns:
+            continue
 
-    return data_copy.drop(
-        features_to_period.keys(),
-        axis=1,
-    )
+        column_values = data_copy[column]
+        data_copy[f"{column}_cos"] = np.cos(2 * np.pi * column_values / period)
+        data_copy[f"{column}_sin"] = np.sin(2 * np.pi * column_values / period)
+        columns_to_drop.append(column)
+
+    if columns_to_drop:
+        data_copy = data_copy.drop(columns=columns_to_drop)
+
+    return data_copy
 
 
 def _get_dataset(data_origin):
